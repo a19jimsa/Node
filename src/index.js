@@ -15,6 +15,9 @@ app.use("/climatecodes", climatecodesRoute)
 const commentsRoute = require("./commentsRoute")
 app.use("/comments", commentsRoute);
 
+const forecastRoute = require("./forecastRoute")
+app.use("/forecast", forecastRoute);
+
 //Hämtar ut startup.html när localhost:3000 körs.
 app.get('/', function(req, res){
     res.sendFile('src/startup.html',{root: '.'})

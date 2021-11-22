@@ -24,6 +24,9 @@ GET http://localhost:3000/climatecodes
 ### GET forecast
 GET http://localhost:3000/forecast
 
+### GET forecast with city
+GET http://localhost:3000/forecast/Am
+
 ### POST comment
 POST http://localhost:3000/comments
 Content-Type: application/json

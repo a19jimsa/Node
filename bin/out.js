@@ -20469,6 +20469,33 @@ var require_commentsRoute = __commonJS({
   }
 });
 
+// src/forecastRoute.js
+var require_forecastRoute = __commonJS({
+  "src/forecastRoute.js"(exports2, module2) {
+    var express2 = require_express2();
+    var router = express2.Router();
+    var forecasts = [
+      { code: "Af", name: "Tropical rainforest climate Tropical Rainforest", color: "#960000" },
+      { code: "Am", name: "Tropical monsoon climate Tropical Monsoon", color: "#FF0000" }
+    ];
+    router.get("/", function(req, res) {
+      res.status(200).json(forecasts);
+      console.log("H\xE4mtade ut v\xE4derprognoser!");
+    });
+    router.get("/:name", function(req, res) {
+      console.log("Specifik stad: " + req.params.name);
+      const forecast = forecasts.find((forecast2) => forecast2.code == req.params.name);
+      if (forecast) {
+        res.type("application/json");
+        res.status(200).send(forecast);
+      } else {
+        res.status(404).json({ msg: "Hittade ingen stad med det namnet" });
+      }
+    });
+    module2.exports = router;
+  }
+});
+
 // src/index.js
 var { application } = require_express2();
 var express = require_express2();
@@ -20481,6 +20508,8 @@ var climatecodesRoute = require_climatecodesRoute();
 app.use("/climatecodes", climatecodesRoute);
 var commentsRoute = require_commentsRoute();
 app.use("/comments", commentsRoute);
+var forecastRoute = require_forecastRoute();
+app.use("/forecast", forecastRoute);
 app.get("/", function(req, res) {
   res.sendFile("src/startup.html", { root: "." });
   console.log("Start");
