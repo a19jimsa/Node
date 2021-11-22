@@ -1,0 +1,38 @@
+GET http://localhost:3000
+
+### Get users
+GET http://localhost:3000/users
+
+### GET User Jimmy
+GET http://localhost:3000/users/Jimmy
+
+###
+POST http://localhost:3000/users/
+Content-Type: application/json
+
+{
+    "name" : "Johan",
+    "title" : "Worker"
+}
+
+### delete user
+DELETE http://localhost:3000/users/Johan
+
+### GET climatecodes
+GET http://localhost:3000/climatecodes
+
+### GET forecast
+GET http://localhost:3000/forecast
+
+### POST comment
+POST http://localhost:3000/comments
+Content-Type: application/json
+
+{
+    "id" : 1,
+    "username" : "Jimmy",
+    "content" : "Detta är en kul ort"
+}
+
+### GET comments
+GET http://localhost:3000/comments
