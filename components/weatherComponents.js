@@ -42,7 +42,7 @@ class Forecast extends React.Component{
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
-        console.log(this.props.days);
+        this.getData();
     }
 
     state = {
@@ -50,7 +50,18 @@ class Forecast extends React.Component{
         draw: false
     };
 
-    handleClick(number){
+    async getData(){
+        const response = await fetch("/forecast", {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        })
+        .then((response) => response.json()).then(data => {
+        this.setState({forecast: data, draw: true})
+        });
+    }
+
+    handleClick(){
+        this.getData();
     }
 
     aside(){
@@ -71,7 +82,7 @@ class Forecast extends React.Component{
                     <div><Button value="collapse">Öppna alla</Button><p>Från</p><p>Till</p><p>Temperatur max/min</p><p>Nederbörd per dygn</p><p>Vind/byvind</p></div>
                     {this.state.forecast.map(tag =>
                     <Accordion>
-                        <div key={tag.name+tag.fromtime+tag.totime} className="infoBox"><h2>{tag.name}</h2><h2>{tag.fromtime}</h2><h2>{tag.totime}</h2><h2>{tag.forecast.TVALUE}&#176;C</h2><h2>{tag.forecast.RVALUE}{tag.forecast.RUNIT}</h2><h2>{tag.forecast.MPS}m/s</h2>
+                        <div key={tag.name+tag.fromtime+tag.totime} className="infoBox"><h2>{tag.name}</h2><h2>{tag.fromtime}</h2><h2>{tag.totime}</h2><h2>{tag.auxdata.TVALUE}&#176;C</h2><h2>{tag.auxdata.RVALUE}{tag.auxdata.RUNIT}</h2><h2>{tag.auxdata.MPS}m/s</h2>
                         </div>
                     </Accordion>
                     )}
