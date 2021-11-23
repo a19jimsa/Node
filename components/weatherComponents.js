@@ -10,17 +10,7 @@ class Button extends React.Component{
 class Info extends React.Component {
     constructor(props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
-        this.state = {data: "Tomt", class: "none", show: true, button: "Chatta"};
-    }
-
-    handleClick(){
-        this.state.show = !this.state.show;
-        if(this.state.show){
-            this.setState({class: "none", button: "Chatta"});
-        }else{
-            this.setState({class: "dialog", button: "Stäng"});
-        }
+        this.state = {data: "Tomt"};
     }
 
     render() {
@@ -30,7 +20,6 @@ class Info extends React.Component {
             <div className="about">{this.state.data}</div>
             <Forecast name={this.state.data} days={this.props.date}/>
             <ChatDialog class={this.state.class} name={this.state.data.name}><h1>Väderchatt - {this.state.data.name}</h1></ChatDialog>
-            <button onClick={this.handleClick} className="chatButton">{this.state.button}</button>
             <WelcomeDialog />
             <ClimateCode />
         </div>;
@@ -157,22 +146,23 @@ class ChatDialog extends React.Component {
         super(props);
         this.handleClick = this.handleClick.bind(this);
         this.handleOnChange = this.handleOnChange.bind(this);
-        this.state = {comments: [{id: 1, username: "Jimmy", content: "Hejsan!"}, {id: 2, username: "Admin", content: "Hej"},{id: 3, username: "Admin", message: "Hej"}], comment:"", id: 4};
+        this.state = {comments: ["TOMT"], show: false, button: "Chatta"};
+        this.getData();
     }
 
     async getData(){
-        const response = await fetch("/comments", {
+        const response = await fetch("/comments/Arjeplog/comment/1111", {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         })
         .then((response) => response.json()).then(data => {
-            console.log(data);
-            this.setState({comments:data});
+            this.setState({comments: [data]});
+            console.log(this.state.comments);
         });
     }
 
     async pushData(){
-        const response = await fetch("/comments", {
+        const response = await fetch("/comments/Arjeplog/comment/1111", {
             method: 'POST',
             headers: {'Content-Type': 'application/json' },
             body: JSON.stringify({id: this.state.id, username: "Jimmy", content: this.state.comment})
@@ -191,21 +181,38 @@ class ChatDialog extends React.Component {
     }
 
     handleClick(){
-        this.pushData();
+        this.state.show = !this.state.show;
+        if(this.state.show){
+            this.setState({button: "Stäng"});
+        }else{
+            this.setState({button: "Chatta"});
+        }
+        this.getData();
     }
 
-    render() { 
-        return (<div className={this.props.class}>
+
+    draw(){
+        if(this.state.show){
+                return (<div>
+            <div className="dialog">
             <Dialog><h1>Väderchatt - {this.props.name}</h1>
             <div className="messageBox">
-                {this.state.comments.slice().reverse().map(tag => <div className="message" key={tag.id+tag.username+tag.content}><p>{tag.username}</p><p>{tag.content}</p><Like/></div>)}
+                {this.state.comments.map(tag => <div className="message" key={tag.id+tag.username+tag.content}><p>{tag.username}</p><p>{tag.content}</p><Like/></div>)}
             </div>
             <div className="inputBox">
                 <input type="text" name="comment" value={this.state.comment} onChange={this.handleOnChange}></input>
                 <button onClick={this.handleClick}>Skicka</button>
             </div>
             </Dialog>
-            </div>)
+            </div>
+            <div><button onClick={this.handleClick} className="chatButton">{this.state.button}</button></div></div>)
+        }else{
+            return <div><button onClick={this.handleClick} className="chatButton">{this.state.button}</button></div>
+        }
+    }
+
+    render() { 
+        return (this.draw())
     }
 }
 
