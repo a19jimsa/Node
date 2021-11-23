@@ -20398,15 +20398,16 @@ var require_usersRoute = __commonJS({
     var express2 = require_express2();
     var router = express2.Router();
     var users = [
-      { id: 1, username: "Jimmy", email: "Student" },
-      { id: 2, username: "Per", email: "Worker" }
+      { id: 1, username: "Jimmy", email: "jimmy@student.his.se" },
+      { id: 2, username: "Per", email: "per@worker.his.se" }
     ];
     router.get("/", function(req, res) {
-      res.status(200).json(users);
+      const usernames = users.map(({ username }) => ({ username }));
+      res.status(200).json(usernames);
     });
     router.get("/:name", function(req, res) {
       console.log("Specifik user: " + req.params.name);
-      const user = users.find((user2) => user2.name == req.params.name);
+      const user = users.find((user2) => user2.username == req.params.name);
       if (user) {
         res.type("application/json");
         res.status(200).send(user);
@@ -20422,12 +20423,12 @@ var require_usersRoute = __commonJS({
       res.status(201).json(req.body);
     });
     router.delete("/:userid", function(req, res) {
-      const rem = users.findIndex((u) => u.name == req.params.userid);
+      const rem = users.findIndex((u) => u.username == req.params.userid);
       if (rem < 0) {
         res.status(404).json({ msg: "User not found" });
       } else {
         users.splice(rem, 1);
-        res.status(200).json({ msg: "user removed" });
+        res.status(200).json({ msg: "User removed" });
       }
     });
     module2.exports = router;
@@ -20469,6 +20470,7 @@ var require_commentsRoute = __commonJS({
         res.status(200).json(citycomments);
       }
     });
+    router.post;
     router.post("/", express2.json(), function(req, res) {
       comments.push(req.body);
       res.status(201).json(req.body);
@@ -20504,7 +20506,7 @@ var require_forecastRoute = __commonJS({
     });
     router.get("/:name", function(req, res) {
       console.log("Specifik stad: " + req.params.name);
-      const city = forecasts.find((city2) => city2.name == req.params.name);
+      const city = forecasts.slice(-1).find((city2) => city2.name == req.params.name);
       const fromtime = forecasts.find((fromtime2) => fromtime2.fromtime.substring(0, 10) == req.params.name);
       console.log(req.params.name);
       if (city) {

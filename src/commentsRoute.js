@@ -18,6 +18,8 @@ router.get("/:location", function(req, res){
     }
 })
 
+router.post
+
 router.post("/", express.json(), function(req, res){
     comments.push(req.body);
     res.status(201).json(req.body);
