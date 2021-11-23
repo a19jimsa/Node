@@ -20398,8 +20398,8 @@ var require_usersRoute = __commonJS({
     var express2 = require_express2();
     var router = express2.Router();
     var users = [
-      { name: "Jimmy", title: "Student" },
-      { name: "Per", title: "Worker" }
+      { id: 1, username: "Jimmy", email: "Student" },
+      { id: 2, username: "Per", email: "Worker" }
     ];
     router.get("/", function(req, res) {
       res.status(200).json(users);
@@ -20413,6 +20413,9 @@ var require_usersRoute = __commonJS({
       } else {
         res.status(404).json({ msg: "user not found" });
       }
+    });
+    router.put("/:name", function(req, res) {
+      const rem = users;
     });
     router.post("/", express2.json(), function(req, res) {
       users.push(req.body);
@@ -20454,11 +20457,17 @@ var require_commentsRoute = __commonJS({
     var express2 = require_express2();
     var router = express2.Router();
     var comments = [
-      { id: 1, username: "Jimmy", content: "Student" },
-      { id: 2, username: "Per", content: "Worker" }
+      { id: 1, location: "Arjeplog", replyto: "2", author: 1, content: "Detta \xE4r en kommentar om Arjeplog", posted: "2020-01-02 00:00:00" },
+      { id: 2, location: "Grums", replyto: "1", author: 2, content: "Detta \xE4r en annan kommentar om Grums", posted: "2020-01-02 00:00:01" }
     ];
     router.get("/", function(req, res) {
       res.status(200).json(comments);
+    });
+    router.get("/:location", function(req, res) {
+      const citycomments = comments.filter((comment) => comment.location == req.params.location);
+      if (citycomments) {
+        res.status(200).json(citycomments);
+      }
     });
     router.post("/", express2.json(), function(req, res) {
       comments.push(req.body);

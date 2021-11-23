@@ -2,8 +2,8 @@ const express = require("express");
 const router =  express.Router();
 
 const users = [
-    {name: "Jimmy", title:"Student"},
-    {name: "Per", title:"Worker"}
+    {id: 1, username: "Jimmy", email :"Student"},
+    {id: 2, username: "Per", email :"Worker"}
 ]
 
 router.get("/", function(req, res){
@@ -19,6 +19,10 @@ router.get("/:name", function(req, res){
     }else{
        res.status(404).json({msg: "user not found"});
     }
+})
+
+router.put("/:name", function(req, res){
+    const rem = users
 })
 
 router.post("/", express.json(), function(req, res){
