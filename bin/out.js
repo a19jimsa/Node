@@ -20397,44 +20397,44 @@ var require_usersRoute = __commonJS({
   "src/usersRoute.js"(exports2, module2) {
     var express2 = require_express2();
     var router = express2.Router();
-    var users2 = [
+    var users = [
       { id: 1, username: "Jimmy", email: "jimmy@student.his.se" },
       { id: 2, username: "Per", email: "per@worker.his.se" }
     ];
     router.get("/", function(req, res) {
-      const usernames = users2.map(({ username }) => ({ username }));
+      const usernames = users.map(({ username }) => ({ username }));
       res.status(200).json(usernames);
     });
     router.get("/:name", function(req, res) {
       console.log("Specifik user: " + req.params.name);
-      const user2 = users2.find((user3) => user3.username == req.params.name);
-      if (user2) {
+      const user = users.find((user2) => user2.username == req.params.name);
+      if (user) {
         res.type("application/json");
-        res.status(200).send(user2);
+        res.status(200).send(user);
       } else {
         res.status(404).json({ msg: "user not found" });
       }
     });
     router.put("/:id", express2.json(), function(req, res) {
-      const user2 = users2.findIndex((user3) => user3.id == req.params.id);
+      const user = users.findIndex((user2) => user2.id == req.params.id);
       console.log(req.body);
-      if (user2 < 0) {
+      if (user < 0) {
         res.status(404).json({ msg: "User not found" });
       } else {
-        users2.splice(user2, 1, req.body);
+        users.splice(user, 1, req.body);
         res.status(200).json({ msg: "Updated user" });
       }
     });
     router.post("/", express2.json(), function(req, res) {
-      users2.push(req.body);
+      users.push(req.body);
       res.status(201).json(req.body);
     });
     router.delete("/:name", function(req, res) {
-      const rem = users2.findIndex((u) => u.username == req.params.name);
+      const rem = users.findIndex((u) => u.username == req.params.name);
       if (rem < 0) {
         res.status(404).json({ msg: "User not found" });
       } else {
-        users2.splice(rem, 1);
+        users.splice(rem, 1);
         res.status(200).json({ msg: "User removed" });
       }
     });
@@ -20465,8 +20465,8 @@ var require_commentsRoute = __commonJS({
     var express2 = require_express2();
     var router = express2.Router();
     var comments = [
-      { id: 1, location: "Arjeplog", replyto: "2", author: 1, content: "Detta \xE4r en kommentar om Arjeplog", posted: "2020-01-02 00:00:00" },
-      { id: 2, location: "Grums", replyto: "1", author: 2, content: "Detta \xE4r en annan kommentar om Grums", posted: "2020-01-02 00:00:01" }
+      { id: 1111, location: "Arjeplog", replyto: "null", author: 1, content: "Detta \xE4r en kommentar om Arjeplog", posted: "2020-01-02 00:00:00" },
+      { id: 1112, location: "Grums", replyto: "null", author: 2, content: "Detta \xE4r en annan kommentar om Grums", posted: "2020-01-02 00:00:01" }
     ];
     router.get("/", function(req, res) {
       res.status(200).json(comments);
@@ -20494,13 +20494,13 @@ var require_commentsRoute = __commonJS({
         res.status(404).json({ msg: "Comment not found" });
       }
     });
-    router.put("/:location/comment/:replyto", express2.json(), function(req, res) {
-      const comment = comments.findIndex((comment2) => comment2.location == req.params.location && comment2.replyto == req.params.replyto);
+    router.put("/:location/comment/:id", express2.json(), function(req, res) {
+      const comment = comments.findIndex((comment2) => comment2.location == req.params.location && comment2.id == req.params.id);
       console.log(req.body);
-      if (user < 0) {
-        res.status(404).json({ msg: "User not found" });
+      if (comment < 0) {
+        res.status(404).json({ msg: "Comment not found" });
       } else {
-        users.splice(user, 1, req.body);
+        comments.splice(comment, 1, req.body);
         res.status(200).json({ msg: "Updated user" });
       }
     });
