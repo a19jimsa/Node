@@ -1,3 +1,4 @@
+const { response } = require("express");
 const express = require("express");
 const router =  express.Router();
 
@@ -12,19 +13,29 @@ router.get("/", function(req, res){
     console.log("Hämtade ut väderprognoser!");
 })
 
-router.get("/:name", function(req, res){
-    console.log("Specifik stad: " + req.params.name);
-    var forecast = forecasts.find(forecast=>forecast.code==req.params.name);
-
-    if(!forecast){
-        forecast = forecasts.find(forecast=>forecast.color==req.params.name);
-    }
-    
+router.get("/:name/:fromtime", function(req, res){
+    const forecast = forecasts.find(forecast=>forecast.name==req.params.name&&forecast.fromtime.substring(0, 10)==req.params.fromtime);
     if(forecast){
         res.type("application/json");
         res.status(200).send(forecast);
     }else{
-       res.status(404).json({msg: "Hittade ingen stad med det namnet"});
+        res.status(404).json({msg: "Hittade ingen kod!"});
+    }
+})
+
+router.get("/:name", function(req, res){
+    console.log("Specifik stad: " + req.params.name);
+    const city = forecasts.find(city=>city.name==req.params.name);
+    const fromtime = forecasts.find(fromtime=>fromtime.fromtime.substring(0, 10)==req.params.name);
+    console.log(req.params.name);
+    if(city){
+        res.type("application/json");
+        res.status(200).send(city);
+    }else if(fromtime){
+        res.type("application/json");
+        res.status(200).send(fromtime);
+    }else{
+       res.status(404).json({msg: "Hittade ingen med det namnet"});
     }
 })
 

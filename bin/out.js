@@ -20472,6 +20472,7 @@ var require_commentsRoute = __commonJS({
 // src/forecastRoute.js
 var require_forecastRoute = __commonJS({
   "src/forecastRoute.js"(exports2, module2) {
+    var { response } = require_express2();
     var express2 = require_express2();
     var router = express2.Router();
     var forecasts = [
@@ -20483,17 +20484,28 @@ var require_forecastRoute = __commonJS({
       res.status(200).json(forecasts);
       console.log("H\xE4mtade ut v\xE4derprognoser!");
     });
-    router.get("/:name", function(req, res) {
-      console.log("Specifik stad: " + req.params.name);
-      var forecast = forecasts.find((forecast2) => forecast2.code == req.params.name);
-      if (!forecast) {
-        forecast = forecasts.find((forecast2) => forecast2.color == req.params.name);
-      }
+    router.get("/:name/:fromtime", function(req, res) {
+      const forecast = forecasts.find((forecast2) => forecast2.name == req.params.name && forecast2.fromtime.substring(0, 10) == req.params.fromtime);
       if (forecast) {
         res.type("application/json");
         res.status(200).send(forecast);
       } else {
-        res.status(404).json({ msg: "Hittade ingen stad med det namnet" });
+        res.status(404).json({ msg: "Hittade ingen kod!" });
+      }
+    });
+    router.get("/:name", function(req, res) {
+      console.log("Specifik stad: " + req.params.name);
+      const city = forecasts.find((city2) => city2.name == req.params.name);
+      const fromtime = forecasts.find((fromtime2) => fromtime2.fromtime.substring(0, 10) == req.params.name);
+      console.log(req.params.name);
+      if (city) {
+        res.type("application/json");
+        res.status(200).send(city);
+      } else if (fromtime) {
+        res.type("application/json");
+        res.status(200).send(fromtime);
+      } else {
+        res.status(404).json({ msg: "Hittade ingen med det namnet" });
       }
     });
     module2.exports = router;
