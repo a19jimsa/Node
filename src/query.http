@@ -55,4 +55,12 @@ GET http://localhost:3000/comments/Arjeplog
 ### POST add comments for a specific comment
 POST http://localhost:3000/comments/Arjeplog/comment/
 
-### 
+### PUT update user
+PUT http://localhost:3000/users/1
+Content-Type: application/json
+
+{
+    "id" : 1,
+    "username" : "Jimmy",
+    "email" : "jimmy@student.se"
+}

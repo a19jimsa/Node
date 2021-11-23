@@ -22,8 +22,15 @@ router.get("/:name", function(req, res){
     }
 })
 
-router.put("/:name", function(req, res){
-    const rem = users
+router.put("/:id", express.json(), function(req, res){
+    const user = users.findIndex((user)=>user.id==req.params.id);
+    console.log(req.body);
+    if(user < 0){
+        res.status(404).json({msg: "User not found"});
+    }else{
+        users.splice(user, 1, req.body);
+        res.status(200).json({msg: "Updated user"});
+    }
 })
 
 router.post("/", express.json(), function(req, res){
@@ -31,8 +38,8 @@ router.post("/", express.json(), function(req, res){
     res.status(201).json(req.body);
 })
 
-router.delete("/:userid", function(req, res){
-    const rem = users.findIndex((u)=>u.username == req.params.userid);
+router.delete("/:name", function(req, res){
+    const rem = users.findIndex((u)=>u.username == req.params.name);
     if(rem < 0){
         res.status(404).json({msg: "User not found"})
     }else{
