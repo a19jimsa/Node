@@ -64,3 +64,6 @@ Content-Type: application/json
     "username" : "Jimmy",
     "email" : "jimmy@student.se"
 }
+
+### GET specific comment of id
+GET http://localhost:3000/comments/Grums/comment/2

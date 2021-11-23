@@ -20397,44 +20397,44 @@ var require_usersRoute = __commonJS({
   "src/usersRoute.js"(exports2, module2) {
     var express2 = require_express2();
     var router = express2.Router();
-    var users = [
+    var users2 = [
       { id: 1, username: "Jimmy", email: "jimmy@student.his.se" },
       { id: 2, username: "Per", email: "per@worker.his.se" }
     ];
     router.get("/", function(req, res) {
-      const usernames = users.map(({ username }) => ({ username }));
+      const usernames = users2.map(({ username }) => ({ username }));
       res.status(200).json(usernames);
     });
     router.get("/:name", function(req, res) {
       console.log("Specifik user: " + req.params.name);
-      const user = users.find((user2) => user2.username == req.params.name);
-      if (user) {
+      const user2 = users2.find((user3) => user3.username == req.params.name);
+      if (user2) {
         res.type("application/json");
-        res.status(200).send(user);
+        res.status(200).send(user2);
       } else {
         res.status(404).json({ msg: "user not found" });
       }
     });
     router.put("/:id", express2.json(), function(req, res) {
-      const user = users.findIndex((user2) => user2.id == req.params.id);
+      const user2 = users2.findIndex((user3) => user3.id == req.params.id);
       console.log(req.body);
-      if (user < 0) {
+      if (user2 < 0) {
         res.status(404).json({ msg: "User not found" });
       } else {
-        users.splice(user, 1, req.body);
+        users2.splice(user2, 1, req.body);
         res.status(200).json({ msg: "Updated user" });
       }
     });
     router.post("/", express2.json(), function(req, res) {
-      users.push(req.body);
+      users2.push(req.body);
       res.status(201).json(req.body);
     });
     router.delete("/:name", function(req, res) {
-      const rem = users.findIndex((u) => u.username == req.params.name);
+      const rem = users2.findIndex((u) => u.username == req.params.name);
       if (rem < 0) {
         res.status(404).json({ msg: "User not found" });
       } else {
-        users.splice(rem, 1);
+        users2.splice(rem, 1);
         res.status(200).json({ msg: "User removed" });
       }
     });
@@ -20475,13 +20475,34 @@ var require_commentsRoute = __commonJS({
       const citycomments = comments.filter((comment) => comment.location == req.params.location);
       if (citycomments) {
         res.status(200).json(citycomments);
+      } else {
+        res.status(404).json({ msg: "No comments found" });
       }
     });
-    router.post;
-    router.post("/", express2.json(), function(req, res) {
+    router.post("/location", express2.json(), function(req, res) {
       comments.push(req.body);
       res.status(201).json(req.body);
       console.log("La till kommentar!");
+    });
+    router.get("/:location/comment/:id", function(req, res) {
+      console.log(req.params.location);
+      console.log(req.params.id);
+      const comment = comments.find((comment2) => comment2.location == req.params.location && comment2.id == req.params.id);
+      if (comment) {
+        res.status(200).json(comment);
+      } else {
+        res.status(404).json({ msg: "Comment not found" });
+      }
+    });
+    router.put("/:location/comment/:replyto", express2.json(), function(req, res) {
+      const comment = comments.findIndex((comment2) => comment2.location == req.params.location && comment2.replyto == req.params.replyto);
+      console.log(req.body);
+      if (user < 0) {
+        res.status(404).json({ msg: "User not found" });
+      } else {
+        users.splice(user, 1, req.body);
+        res.status(200).json({ msg: "Updated user" });
+      }
     });
     module2.exports = router;
   }
