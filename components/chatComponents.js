@@ -168,7 +168,7 @@ class AnswerComment extends React.Component {
         }else if(comments.length > 0){
             return (<div>
                 {comments.map(tag=>
-                    <div key={tag.id}>
+                    <div key={tag.id} className="answerMessage">
                         <p>{tag.id}</p><p>{tag.content}</p>
                     </div>)}
             </div>

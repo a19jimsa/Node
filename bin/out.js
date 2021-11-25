@@ -20472,7 +20472,7 @@ var require_commentsRoute = __commonJS({
       res.status(200).json(comments);
     });
     router.get("/:location", function(req, res) {
-      const citycomments = comments.filter((comment) => comment.location == req.params.location).reverse();
+      const citycomments = comments.filter((comment) => comment.location == req.params.location && comment.replyto == "null").reverse();
       if (citycomments) {
         res.status(200).json(citycomments);
       } else {

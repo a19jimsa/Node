@@ -215,7 +215,7 @@ button:hover{
 
 .message{
   color: white;
-  border-radius: 5px;
+  border-radius: 15px;
   padding: 10px;
   width: 100%;
   display: flex;
@@ -224,6 +224,21 @@ button:hover{
   flex-direction: column;
   background-color: #007bff;
 }
+
+.answerMessage{
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  width: 80%;
+  display: flex;
+  justify-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: #007bff;
+  transform: translate(20%, 0px);
+}
+
+
 
 .messageContent{
   margin-bottom: 10px;
