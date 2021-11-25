@@ -20500,9 +20500,23 @@ var require_commentsRoute = __commonJS({
       }
     });
     router.post("/:name", express2.json(), function(req, res) {
+      console.log(comments.length);
+      console.log(req.body.id);
+      if (comments.length <= 0) {
+        req.body.id = 1111;
+      }
       comments.push(req.body);
       res.status(201).json(req.body);
       console.log("La till kommentar!");
+    });
+    router.delete("/:userid", express2.json(), function(req, res) {
+      const comment = comments.findIndex((comment2) => comment2.id == req.params.userid);
+      if (comment < 0) {
+        res.status(404).json({ ms: "Could not delete" });
+      } else {
+        comments.splice(comment, 1);
+        res.status(200).json({ msg: "Removed comment" });
+      }
     });
     module2.exports = router;
   }

@@ -90,6 +90,17 @@ class ChatDialog extends React.Component {
         this.addComment();
     }
 
+    async removeComment(id){
+        //HTML5 API Fetch
+        await fetch("/comments/"+id, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json' }
+        })
+            .then((response) => response.json()).then(data => {
+            this.componentDidMount();
+        });
+    }
+
     draw(){
         const {error, isLoaded, comments} = this.state;
         if(error){
@@ -104,7 +115,7 @@ class ChatDialog extends React.Component {
             {comments.map(tag=>
                 <div key={tag.id} className="messageContent">
                     <div className="message"><div><p>{tag.id}</p><p>{tag.content}</p></div></div>
-                    <ul><Like/><li>Svara</li><li>Delete</li><li>{tag.posted}</li></ul>
+                    <ul><Like/><li>Svara</li><li onClick={this.removeComment.bind(this, tag.id)}>Ta bort</li><li>{tag.posted}</li></ul>
                 </div>
             )}
             </div>

@@ -45,9 +45,23 @@ router.put("/:location/comment/:id", express.json(), function(req, res){
 
 //POST Add comment to specific city
 router.post("/:name", express.json(), function(req, res){
+    if(comments.length <= 0){
+        req.body.id = 1111;
+    }
     comments.push(req.body);
     res.status(201).json(req.body);
     console.log("La till kommentar!");
+})
+
+//DELETE remove comment from specific city
+router.delete("/:userid", express.json(), function(req, res){
+    const comment = comments.findIndex((comment)=>comment.id==req.params.userid);
+    if(comment < 0){
+        res.status(404).json({ms: "Could not delete"});
+    }else{
+        comments.splice(comment,1);
+        res.status(200).json({msg: "Removed comment"});
+    }
 })
 
 module.exports = router;
