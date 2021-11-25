@@ -20466,7 +20466,7 @@ var require_commentsRoute = __commonJS({
     var router = express2.Router();
     var comments = [
       { id: 1111, location: "Arjeplog", replyto: "null", author: 1, content: "Detta \xE4r en kommentar om Arjeplog", posted: "2020-01-02 00:00:00" },
-      { id: 1112, location: "Arjeplog", replyto: "1111", author: 2, content: "Detta \xE4r ett svar p\xE5 1111", posted: "2020-01-02 00:00:01" }
+      { id: 1112, location: "Arjeplog", replyto: 1111, author: 2, content: "Detta \xE4r ett svar p\xE5 1111", posted: "2020-01-02 00:00:01" }
     ];
     router.get("/", function(req, res) {
       res.status(200).json(comments);

@@ -29,7 +29,19 @@ class ChatDialog extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleComment = this.handleComment.bind(this);
-        this.state = {error: null,  isLoaded: false, comments: [], show: true, button: "Chatt", content: ""};
+        this.state = {error: null,  isLoaded: false, comments: [], show: true, button: "Chatt", content: "", highestId: []};
+        this.getHighestId();
+    }
+
+    async getHighestId(){
+        await fetch("/comments/",{
+            method : 'GET',
+            headers: { 'Content-Type': 'application/json'}
+        })
+        .then((response) => response.json())
+        .then(data=> {
+            this.setState({highestId: data})
+        })
     }
 
     async componentDidMount(){
@@ -48,7 +60,8 @@ class ChatDialog extends React.Component {
     }
 
     async addComment(){
-        const id = Math.max.apply(null, this.state.comments.map(comment => comment.id))+1;
+        this.getHighestId();
+        const id = Math.max.apply(null, this.state.highestId.map(highestId => highestId.id))+1;
         console.log(id);
         const time = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
         console.log(time);
@@ -161,6 +174,10 @@ class AnswerComment extends React.Component {
         }
     }
 
+    removeComment(id){
+
+    }
+
     render() { 
         const {error, isLoaded, comments } = this.state;
         if(error){
@@ -168,9 +185,12 @@ class AnswerComment extends React.Component {
         }else if(comments.length > 0){
             return (<div>
                 {comments.map(tag=>
-                    <div key={tag.id} className="answerMessage">
+                <div key={tag.id} className="answerContent">
+                    <div className="answerMessage right">
                         <p>{tag.id}</p><p>{tag.content}</p>
-                    </div>)}
+                    </div>
+                    <div className="right"><ul><Like/><li>Svara</li><li onClick={this.removeComment.bind(this, tag.id)}>Ta bort</li><li>{tag.posted}</li></ul></div>
+                </div>)}
             </div>
             );
         }else{
