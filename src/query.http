@@ -97,3 +97,19 @@ Content-Type: application/json
     "posted" : "2020-01-02 13:00:00"
 }
 
+### GET specific comment of user id
+GET http://localhost:3000/comments/
+
+### POST Answer on specific comment
+POST http://localhost:3000/comments/Arjeplog/comment/1111
+Content-Type:  application/json
+
+{
+    "id" : 1115,
+    "location" : "Arjeplog",
+    "replyto" : "1111",
+    "author" : "1",
+    "content" : "Detta är ett svar",
+    "posted" : "2020-01-02 13:00:00"
+}
+

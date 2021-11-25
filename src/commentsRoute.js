@@ -44,7 +44,7 @@ router.put("/:location/comment/:id", express.json(), function(req, res){
 })
 
 //POST Add comment to specific city
-router.post("/:name", express.json(), function(req, res){
+router.post("/:location", express.json(), function(req, res){
     if(comments.length <= 0){
         req.body.id = 1111;
     }
@@ -53,9 +53,22 @@ router.post("/:name", express.json(), function(req, res){
     console.log("La till kommentar!");
 })
 
+// POST Add answer on specific comment on a city
+router.post("/:location/comment/:commentid", express.json(), function(req, res){
+    const comment = comments.find(comment=>comment.location==req.params.location&&comment.id==req.params.commentid);
+    console.log(req.params.commentid);
+    console.log(req.params.location);
+    if(comment){
+        comments.push(req.body);
+        res.status(201).json({msg: "Created answer comment"});
+    }else{
+        res.status(404).json({msg: "Could not answer that comment"});
+    }
+})
+
 //DELETE remove comment from specific city
-router.delete("/:userid", express.json(), function(req, res){
-    const comment = comments.findIndex((comment)=>comment.id==req.params.userid);
+router.delete("/:commentid", express.json(), function(req, res){
+    const comment = comments.findIndex((comment)=>comment.id==req.params.commentid);
     if(comment < 0){
         res.status(404).json({ms: "Could not delete"});
     }else{

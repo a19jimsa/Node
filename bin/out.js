@@ -20499,9 +20499,7 @@ var require_commentsRoute = __commonJS({
         res.status(200).json({ msg: "Updated user" });
       }
     });
-    router.post("/:name", express2.json(), function(req, res) {
-      console.log(comments.length);
-      console.log(req.body.id);
+    router.post("/:location", express2.json(), function(req, res) {
       if (comments.length <= 0) {
         req.body.id = 1111;
       }
@@ -20509,8 +20507,19 @@ var require_commentsRoute = __commonJS({
       res.status(201).json(req.body);
       console.log("La till kommentar!");
     });
-    router.delete("/:userid", express2.json(), function(req, res) {
-      const comment = comments.findIndex((comment2) => comment2.id == req.params.userid);
+    router.post("/:location/comment/:commentid", express2.json(), function(req, res) {
+      const comment = comments.find((comment2) => comment2.location == req.params.location && comment2.id == req.params.commentid);
+      console.log(req.params.commentid);
+      console.log(req.params.location);
+      if (comment) {
+        comments.push(req.body);
+        res.status(201).json({ msg: "Created answer comment" });
+      } else {
+        res.status(404).json({ msg: "Could not answer that comment" });
+      }
+    });
+    router.delete("/:commentid", express2.json(), function(req, res) {
+      const comment = comments.findIndex((comment2) => comment2.id == req.params.commentid);
       if (comment < 0) {
         res.status(404).json({ ms: "Could not delete" });
       } else {
@@ -20564,6 +20573,17 @@ var require_forecastRoute = __commonJS({
       }
     });
     router.get("/:climatecode/:date", function(req, res) {
+      const climatecode = forecasts.find((climatecode2) => climatecode2.code == req.body.code);
+      const climateanddate = forecasts.find((date) => date.fromtime.substring(0, 10) == req.body.date && date.code == req.body.code);
+      if (climatecode) {
+        res.type("application/json");
+        res.status(200).send(climatecode);
+      } else if (climateanddate) {
+        res.type("application/json");
+        res.status(200).send(climateanddate);
+      } else {
+        res.status(404).json({ msg: "Hittade ingen v\xE4rde!" });
+      }
     });
     module2.exports = router;
   }
