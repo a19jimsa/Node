@@ -40,7 +40,6 @@ class ChatDialog extends React.Component {
             .then((response) => response.json())
             .then(data => {
                 this.setState({isLoaded: true, comments: data});
-                console.log(this.state.comments);
             },
             (error)=>{
                 this.setState({isLoaded: true, error});
@@ -116,6 +115,7 @@ class ChatDialog extends React.Component {
                 <div key={tag.id} className="messageContent">
                     <div className="message"><div><p>{tag.id}</p><p>{tag.content}</p></div></div>
                     <ul><Like/><li>Svara</li><li onClick={this.removeComment.bind(this, tag.id)}>Ta bort</li><li>{tag.posted}</li></ul>
+                    <AnswerComment name={this.props.name} id={tag.id}/>
                 </div>
             )}
             </div>
@@ -134,22 +134,47 @@ class ChatDialog extends React.Component {
     }
 }
 
-class answerChat extends React.Component {
+class AnswerComment extends React.Component {
     constructor(props) {
         super(props);
-        this.state({error: null, isLoaded: false, comment: []})
+        this.state = {error: null, isLoaded: false, comments: []};
+    }
+
+    async componentDidMount(){
+        console.log(this.props.id);
+        if(this.props.id != "null"){
+            //HTML5 API Fetch
+            await fetch("/comments/"+this.props.name+"/comment/"+this.props.id, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then((response) => response.json())
+                .then(data => {
+                    this.setState({isLoaded: true, comments: data});
+                    console.log(this.state.comments);
+                    console.log("Bajs");
+                },
+                (error)=>{
+                    this.setState({isLoaded: true, error});
+                }
+            )
+        }
     }
 
     render() { 
-        const {error, isLoaded, comment } = this.state;
+        const {error, isLoaded, comments } = this.state;
         if(error){
             return <div>Error: {error.message}</div>
-        }else if(!isLoaded){
-            return <div>Loading...</div>
+        }else if(comments.length > 0){
+            return (<div>
+                {comments.map(tag=>
+                    <div key={tag.id}>
+                        <p>{tag.id}</p><p>{tag.content}</p>
+                    </div>)}
+            </div>
+            );
         }else{
-            return <div>
-                
-            </div>;
+            return <div></div>;
         }
     }
 }

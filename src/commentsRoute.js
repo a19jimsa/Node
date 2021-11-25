@@ -3,7 +3,7 @@ const router =  express.Router();
 
 const comments = [
     {id: 1111, location: "Arjeplog", replyto :"null", author: 1, content:"Detta är en kommentar om Arjeplog", posted: "2020-01-02 00:00:00"},
-    {id: 1112, location: "Grums", replyto :"null", author: 2, content:"Detta är en annan kommentar om Grums", posted: "2020-01-02 00:00:01"}
+    {id: 1112, location: "Arjeplog", replyto :"1111", author: 2, content:"Detta är ett svar på 1111", posted: "2020-01-02 00:00:01"}
 ]
 
 router.get("/", function(req, res){
@@ -12,7 +12,6 @@ router.get("/", function(req, res){
 
 router.get("/:location", function(req, res){
     const citycomments = comments.filter(comment=>comment.location==req.params.location).reverse();
-
     if(citycomments){
         res.status(200).json(citycomments);
     }else{
@@ -23,12 +22,11 @@ router.get("/:location", function(req, res){
 router.get("/:location/comment/:id", function(req, res){
     console.log(req.params.location);
     console.log(req.params.id);
-    const comment = comments.find((comment)=>comment.location==req.params.location && comment.id==req.params.id);
-
+    const comment = comments.filter((comment)=>comment.location==req.params.location && comment.replyto==req.params.id);
     if(comment){
         res.status(200).json(comment);
     }else{
-        res.status(404).json({msg: "Comment not found"});
+        res.status(404).json({msg: "Not found"});
     }
 })
 
@@ -45,7 +43,8 @@ router.put("/:location/comment/:id", express.json(), function(req, res){
 
 //POST Add comment to specific city
 router.post("/:location", express.json(), function(req, res){
-    if(comments.length <= 0){
+    const comment = comments.findIndex((comment)=>comment.location==req.params.location);
+    if(comment < 0){
         req.body.id = 1111;
     }
     comments.push(req.body);

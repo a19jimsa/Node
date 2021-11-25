@@ -98,7 +98,7 @@ Content-Type: application/json
 }
 
 ### GET specific comment of user id
-GET http://localhost:3000/comments/
+GET http://localhost:3000/comments/Arjeplog/comment/1112
 
 ### POST Answer on specific comment
 POST http://localhost:3000/comments/Arjeplog/comment/1111

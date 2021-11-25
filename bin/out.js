@@ -20466,7 +20466,7 @@ var require_commentsRoute = __commonJS({
     var router = express2.Router();
     var comments = [
       { id: 1111, location: "Arjeplog", replyto: "null", author: 1, content: "Detta \xE4r en kommentar om Arjeplog", posted: "2020-01-02 00:00:00" },
-      { id: 1112, location: "Grums", replyto: "null", author: 2, content: "Detta \xE4r en annan kommentar om Grums", posted: "2020-01-02 00:00:01" }
+      { id: 1112, location: "Arjeplog", replyto: "1111", author: 2, content: "Detta \xE4r ett svar p\xE5 1111", posted: "2020-01-02 00:00:01" }
     ];
     router.get("/", function(req, res) {
       res.status(200).json(comments);
@@ -20482,11 +20482,11 @@ var require_commentsRoute = __commonJS({
     router.get("/:location/comment/:id", function(req, res) {
       console.log(req.params.location);
       console.log(req.params.id);
-      const comment = comments.find((comment2) => comment2.location == req.params.location && comment2.id == req.params.id);
+      const comment = comments.filter((comment2) => comment2.location == req.params.location && comment2.replyto == req.params.id);
       if (comment) {
         res.status(200).json(comment);
       } else {
-        res.status(404).json({ msg: "Comment not found" });
+        res.status(404).json({ msg: "Not found" });
       }
     });
     router.put("/:location/comment/:id", express2.json(), function(req, res) {
@@ -20500,7 +20500,8 @@ var require_commentsRoute = __commonJS({
       }
     });
     router.post("/:location", express2.json(), function(req, res) {
-      if (comments.length <= 0) {
+      const comment = comments.findIndex((comment2) => comment2.location == req.params.location);
+      if (comment < 0) {
         req.body.id = 1111;
       }
       comments.push(req.body);
