@@ -41,8 +41,19 @@ router.get("/:name", function(req, res){
     }
 })
 
+//GET Get all cities with climatecode or climatecode and date
 router.get("/:climatecode/:date", function(req, res){
-    
+    const climatecode = forecasts.find(climatecode=>climatecode.code == req.body.code);
+    const climateanddate = forecasts.find(date=>date.fromtime.substring(0,10)==req.body.date&&date.code == req.body.code);
+    if(climatecode){
+        res.type("application/json");
+        res.status(200).send(climatecode);
+    }else if(climateanddate){
+        res.type("application/json");
+        res.status(200).send(climateanddate);
+    }else{
+        res.status(404).json({msg: "Hittade ingen värde!"});
+    }
 })
 
 module.exports = router;
