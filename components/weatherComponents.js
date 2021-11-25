@@ -144,46 +144,51 @@ class ChatDialog extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleComment = this.handleComment.bind(this);
-        this.state = {comments: ["TOMT"], show: false, button: "Chatta", comment: "", id: 1111};
-        this.getData();
+        this.state = {error: null,  isLoaded: false, comments: [], show: true, button: "Chatt", content: ""};
     }
 
-    async getData(){
-        const response = await fetch("/comments/"+this.props.name, {
+    async componentDidMount(){
+        await fetch("/comments/"+this.props.name, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         })
-        .then((response) => response.json()).then(data => {
-            this.setState({comments: data});
-            console.log("Hämtade alla kommentarer för " + this.props.name);
-        });
+            .then((response) => response.json())
+            .then(data => {
+                this.setState({isLoaded: true, comments: data});
+                console.log(this.state.comments);
+            },
+            (error)=>{
+                this.setState({isLoaded: true, error});
+            }
+        )
     }
 
     async addComment(){
+        const id = Math.max.apply(null, this.state.comments.map(comment => comment.id))+1;
+        console.log(id);
+        const time = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
+        console.log(time);
         const data = {
-            "id" : 1114,
-            "location" : "Grums",
+            "id" : id,
+            "location" : this.props.name,
             "replyto" : "null",
             "author" : "1",
-            "content" : "Detta är en uppdaterad kommentar",
-            "posted" : "2020-01-02 13:00:00"
+            "content" : this.state.content,
+            "posted" : time
         }
         //HTML5 API Fetch
-        const response = await fetch("/comments/"+this.props.name, {
+        await fetch("/comments/"+this.props.name, {
             method: 'POST',
             headers: {'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         })
             .then((response) => response.json()).then(data => {
-            console.log("Lagt till data");
-            this.state.id = this.state.id + 1;
-            this.setState({id:this.state.id})
-            this.getData();
+            this.componentDidMount();
         });
     }
 
     handleOnChange(e){
-        this.setState({comment: e.target.value});
+        this.setState({content: e.target.value});
         console.log(e.target.value);
     }
 
@@ -194,7 +199,6 @@ class ChatDialog extends React.Component {
         }else{
             this.setState({button: "Chatta"});
         }
-        this.getData();
     }
 
     handleComment(){
@@ -202,12 +206,17 @@ class ChatDialog extends React.Component {
     }
 
     draw(){
-        if(this.state.show){
-                return (<div>
+        const {error, isLoaded, comments} = this.state;
+        if(error){
+            return <div>Error: {error.message}</div>;
+        }else if(!isLoaded){
+            return <div>Loading...</div>;
+        }else if(this.state.show && isLoaded){
+            return (<div>
             <div className="dialog">
             <Dialog><h1>Väderchatt - {this.props.name}</h1>
             <div className="messageBox">
-                {this.state.comments.map(tag => <div className="message" key={tag.id+tag.username+tag.content}><p>{tag.username}</p><p>{tag.content}</p><Like/></div>)}
+                {comments.map(tag=><div className="message" key={tag.id}><p>{tag.id}</p><p>{tag.content}</p><Like/></div>)}
             </div>
             <div className="inputBox">
                 <input type="text" name="comment" value={this.state.comment} onChange={this.handleOnChange}></input>
@@ -215,14 +224,12 @@ class ChatDialog extends React.Component {
             </div>
             </Dialog>
             </div>
-            <div><button onClick={this.handleClick} className="chatButton">{this.state.button}</button></div></div>)
-        }else{
-            return <div><button onClick={this.handleClick} className="chatButton">{this.state.button}</button></div>
+            </div>)
         }
     }
 
     render() { 
-        return (this.draw())
+        return (<div>{this.draw()}<button onClick={this.handleClick} className="chatButton">{this.state.button}</button></div>);
     }
 }
 
@@ -235,7 +242,6 @@ class WelcomeDialog extends React.Component {
 
     handleClick(){
         this.setState({class: "none"});
-        
     }
 
     render() { 

@@ -44,7 +44,7 @@ Content-Type: application/json
 GET http://localhost:3000/comments
 
 ### GET forecast with date
-GET http://localhost:3000/forecast/Arjeplog
+GET http://localhost:3000/forecast/Grums
 
 ### GET forecast with city and date
 GET http://localhost:3000/forecast/Arjeplog/2020-01-03
@@ -77,6 +77,9 @@ Content-Type: application/json
 
 ### GET all comments
 GET http://localhost:3000/comments
+
+### GET specific coment of city
+GET http://localhost:3000/comments/Arjeplog
 
 ### GET specific comment of id
 GET http://localhost:3000/comments/Grums/comment/1112

@@ -11,7 +11,7 @@ router.get("/", function(req, res){
 })
 
 router.get("/:location", function(req, res){
-    const citycomments = comments.filter(comment=>comment.location==req.params.location);
+    const citycomments = comments.filter(comment=>comment.location==req.params.location).reverse();
 
     if(citycomments){
         res.status(200).json(citycomments);
@@ -20,7 +20,7 @@ router.get("/:location", function(req, res){
     }
 })
 
-router.post("/:location", express.json(), function(req, res){
+router.post("/:name", express.json(), function(req, res){
     comments.push(req.body);
     res.status(201).json(req.body);
     console.log("La till kommentar!");
