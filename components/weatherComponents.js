@@ -10,7 +10,6 @@ class Button extends React.Component{
 class Info extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {data: ["Tomt"]};
     }
 
     render() {
@@ -18,7 +17,7 @@ class Info extends React.Component {
             <h1>{this.props.name}</h1>
             <div className="about">{this.props.name}</div>
             <div className="about">{this.props.name}</div>
-            <Forecast name={this.state.data} days={this.props.date}/>
+            <Forecast name={this.props.name} days={this.props.date}/>
             <ChatDialog name={this.props.name}><h1>Väderchatt - {this.props.name}</h1></ChatDialog>
             <WelcomeDialog />
             <ClimateCode />
@@ -29,27 +28,27 @@ class Info extends React.Component {
 class Forecast extends React.Component{
     constructor(props) {
         super(props);
+        this.state = {error: null, isLoaded: false, forecast: []};
         this.handleClick = this.handleClick.bind(this);
-        this.getData();
     }
 
-    state = {
-        forecast: {name:"data är tomt"},
-        draw: false
-    };
-
-    async getData(){
-        const response = await fetch("/forecast", {
+    async componentDidMount(){
+        await fetch("/forecast/"+this.props.name, {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json' }
         })
-        .then((response) => response.json()).then(data => {
-        this.setState({forecast: data, draw: true})
-        });
+        .then((response) => response.json())
+        .then(result => {
+            this.setState({isLoaded: true, forecast: [result]});
+            console.log(result);
+        },
+        (error)=>{
+            this.state({isLoaded: true, error});
+        })
     }
 
     handleClick(){
-        this.getData();
+        this.componentDidMount();
     }
 
     aside(){
@@ -62,13 +61,18 @@ class Forecast extends React.Component{
     }
 
     draw(){
-        if(this.state.draw){
+        const {error, isLoaded, forecast} = this.state;
+        if(error){
+            return <div>Error: {error.message}</div>;
+        }else if(!isLoaded){
+            return <div>Loading...</div>
+        }else{
             return(
             <div className="flex">
                 {this.aside()}
                 <div className="forecast">
                     <div><Button value="collapse">Öppna alla</Button><p>Från</p><p>Till</p><p>Temperatur max/min</p><p>Nederbörd per dygn</p><p>Vind/byvind</p></div>
-                    {this.state.forecast.map(tag =>
+                    {forecast.map(tag =>
                     <Accordion>
                         <div key={tag.name+tag.fromtime+tag.totime} className="infoBox"><h2>{tag.name}</h2><h2>{tag.fromtime}</h2><h2>{tag.totime}</h2><h2>{tag.auxdata.TVALUE}&#176;C</h2><h2>{tag.auxdata.RVALUE}{tag.auxdata.RUNIT}</h2><h2>{tag.auxdata.MPS}m/s</h2>
                         </div>
@@ -76,12 +80,6 @@ class Forecast extends React.Component{
                     )}
                 </div>
             </div>)
-        }else{
-            return (
-                <div className="flex">
-                {this.aside()}
-                </div>
-            )
         }
     }
 
@@ -273,5 +271,3 @@ class Like extends React.Component {
         return <button onClick={this.handleClick}>Like</button>;
     }
 }
-
-ReactDOM.render(<Info name="Grums"/>, document.getElementById("content"));
