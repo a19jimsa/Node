@@ -102,9 +102,9 @@ class ChatDialog extends React.Component {
             <Dialog><h1>Väderchatt - {this.props.name}</h1>
             <div className="messageBox">
             {comments.map(tag=>
-                <div className="messageContent">
-                    <div className="message" key={tag.id}><div><p>{tag.id}</p><p>{tag.content}</p></div></div>
-                    <ul><Like/><li>Svara</li><li>Delete</li></ul>
+                <div key={tag.id} className="messageContent">
+                    <div className="message"><div><p>{tag.id}</p><p>{tag.content}</p></div></div>
+                    <ul><Like/><li>Svara</li><li>Delete</li><li>{tag.posted}</li></ul>
                 </div>
             )}
             </div>

@@ -20479,11 +20479,6 @@ var require_commentsRoute = __commonJS({
         res.status(404).json({ msg: "No comments found" });
       }
     });
-    router.post("/:name", express2.json(), function(req, res) {
-      comments.push(req.body);
-      res.status(201).json(req.body);
-      console.log("La till kommentar!");
-    });
     router.get("/:location/comment/:id", function(req, res) {
       console.log(req.params.location);
       console.log(req.params.id);
@@ -20503,6 +20498,11 @@ var require_commentsRoute = __commonJS({
         comments.splice(comment, 1, req.body);
         res.status(200).json({ msg: "Updated user" });
       }
+    });
+    router.post("/:name", express2.json(), function(req, res) {
+      comments.push(req.body);
+      res.status(201).json(req.body);
+      console.log("La till kommentar!");
     });
     module2.exports = router;
   }
@@ -20535,7 +20535,7 @@ var require_forecastRoute = __commonJS({
     });
     router.get("/:name", function(req, res) {
       console.log("Specifik stad: " + req.params.name);
-      const city = forecasts.slice(-1).find((city2) => city2.name == req.params.name);
+      const city = forecasts.reverse().find((city2) => city2.name == req.params.name);
       console.log(city);
       const fromtime = forecasts.find((fromtime2) => fromtime2.fromtime.substring(0, 10) == req.params.name);
       console.log(req.params.name);

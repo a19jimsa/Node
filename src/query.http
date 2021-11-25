@@ -43,8 +43,8 @@ Content-Type: application/json
 ### GET comments
 GET http://localhost:3000/comments
 
-### GET forecast with date
-GET http://localhost:3000/forecast/Grums
+### GET forecast with city or date
+GET http://localhost:3000/forecast/Arjeplog
 
 ### GET forecast with city and date
 GET http://localhost:3000/forecast/Arjeplog/2020-01-03
