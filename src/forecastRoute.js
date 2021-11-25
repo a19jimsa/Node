@@ -23,7 +23,7 @@ router.get("/:name/:fromtime", function(req, res){
         res.status(404).json({msg: "Hittade ingen kod!"});
     }
 })
-
+//Get forcecast from specific city or specific date
 router.get("/:name", function(req, res){
     console.log("Specifik stad: " + req.params.name);
     const city = forecasts.slice(-1).find(city=>city.name==req.params.name);

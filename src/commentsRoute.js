@@ -20,12 +20,6 @@ router.get("/:location", function(req, res){
     }
 })
 
-router.post("/:name", express.json(), function(req, res){
-    comments.push(req.body);
-    res.status(201).json(req.body);
-    console.log("La till kommentar!");
-})
-
 router.get("/:location/comment/:id", function(req, res){
     console.log(req.params.location);
     console.log(req.params.id);
@@ -47,6 +41,13 @@ router.put("/:location/comment/:id", express.json(), function(req, res){
         comments.splice(comment, 1, req.body);
         res.status(200).json({msg: "Updated user"});
     }
+})
+
+//POST Add comment to specific city
+router.post("/:name", express.json(), function(req, res){
+    comments.push(req.body);
+    res.status(201).json(req.body);
+    console.log("La till kommentar!");
 })
 
 module.exports = router;

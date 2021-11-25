@@ -19,7 +19,7 @@ class Like extends React.Component {
     }
 
     render() { 
-        return <button onClick={this.handleClick}>Like</button>;
+        return <li onClick={this.handleClick}>Like</li>;
     }
 }
 
@@ -101,7 +101,12 @@ class ChatDialog extends React.Component {
             <div className="dialog">
             <Dialog><h1>Väderchatt - {this.props.name}</h1>
             <div className="messageBox">
-                {comments.map(tag=><div className="message" key={tag.id}><p>{tag.id}</p><p>{tag.content}</p><Like/></div>)}
+            {comments.map(tag=>
+                <div className="messageContent">
+                    <div className="message" key={tag.id}><div><p>{tag.id}</p><p>{tag.content}</p></div></div>
+                    <ul><Like/><li>Svara</li><li>Delete</li></ul>
+                </div>
+            )}
             </div>
             <div className="inputBox">
                 <input type="text" onChange={this.handleOnChange}></input>

@@ -143,7 +143,8 @@ button:hover{
 .flex{
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: space-evenly;
   padding: 5px;
 }
 
@@ -213,7 +214,6 @@ button:hover{
 }
 
 .message{
-  background-color: #007bff;
   color: white;
   border-radius: 5px;
   padding: 10px;
@@ -221,7 +221,17 @@ button:hover{
   display: flex;
   justify-items: center;
   justify-content: space-between;
+  flex-direction: column;
+  background-color: #007bff;
+}
+
+.messageContent{
   margin-bottom: 10px;
+  text-align: left;
+}
+
+.messageContent li{
+  display: inline;
 }
 
 .inputBox{
