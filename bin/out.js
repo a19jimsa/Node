@@ -20559,7 +20559,7 @@ var require_forecastRoute = __commonJS({
     });
     router.get("/:name", function(req, res) {
       console.log("Specifik stad: " + req.params.name);
-      const city = forecasts.reverse().find((city2) => city2.name == req.params.name);
+      const city = forecasts.find((city2) => city2.name == req.params.name);
       console.log(city);
       const fromtime = forecasts.find((fromtime2) => fromtime2.fromtime.substring(0, 10) == req.params.name);
       console.log(req.params.name);

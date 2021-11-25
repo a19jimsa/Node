@@ -26,7 +26,7 @@ router.get("/:name/:fromtime", function(req, res){
 //Get forcecast from specific city or specific date
 router.get("/:name", function(req, res){
     console.log("Specifik stad: " + req.params.name);
-    const city = forecasts.reverse().find(city=>city.name==req.params.name);
+    const city = forecasts.find(city=>city.name==req.params.name);
     console.log(city);
     const fromtime = forecasts.find(fromtime=>fromtime.fromtime.substring(0, 10)==req.params.name);
     console.log(req.params.name);

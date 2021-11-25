@@ -52,6 +52,7 @@ class ChatDialog extends React.Component {
             .then((response) => response.json())
             .then(data => {
                 this.setState({isLoaded: true, comments: data});
+                this.getHighestId();
             },
             (error)=>{
                 this.setState({isLoaded: true, error});
@@ -60,7 +61,6 @@ class ChatDialog extends React.Component {
     }
 
     async addComment(){
-        this.getHighestId();
         const id = Math.max.apply(null, this.state.highestId.map(highestId => highestId.id))+1;
         console.log(id);
         const time = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
@@ -164,8 +164,6 @@ class AnswerComment extends React.Component {
                 .then((response) => response.json())
                 .then(data => {
                     this.setState({isLoaded: true, comments: data});
-                    console.log(this.state.comments);
-                    console.log("Bajs");
                 },
                 (error)=>{
                     this.setState({isLoaded: true, error});
