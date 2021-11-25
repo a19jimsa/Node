@@ -39,4 +39,8 @@ router.get("/:name", function(req, res){
     }
 })
 
+router.get("/:climatecode/:date", function(req, res){
+    
+})
+
 module.exports = router;

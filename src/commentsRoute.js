@@ -20,7 +20,7 @@ router.get("/:location", function(req, res){
     }
 })
 
-router.post("/location", express.json(), function(req, res){
+router.post("/:location", express.json(), function(req, res){
     comments.push(req.body);
     res.status(201).json(req.body);
     console.log("La till kommentar!");

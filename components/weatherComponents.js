@@ -10,22 +10,21 @@ class Button extends React.Component{
 class Info extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {data: "Tomt"};
+        this.state = {data: ["Tomt"]};
     }
 
     render() {
         return <div>
-            <h1>{this.state.data.name}</h1>
-            <div className="about">{this.state.data}</div>
-            <div className="about">{this.state.data}</div>
+            <h1>{this.props.name}</h1>
+            <div className="about">{this.props.name}</div>
+            <div className="about">{this.props.name}</div>
             <Forecast name={this.state.data} days={this.props.date}/>
-            <ChatDialog class={this.state.class} name={this.state.data.name}><h1>Väderchatt - {this.state.data.name}</h1></ChatDialog>
+            <ChatDialog name={this.props.name}><h1>Väderchatt - {this.props.name}</h1></ChatDialog>
             <WelcomeDialog />
             <ClimateCode />
         </div>;
     }
 }
-
 
 class Forecast extends React.Component{
     constructor(props) {
@@ -146,26 +145,36 @@ class ChatDialog extends React.Component {
         super(props);
         this.handleClick = this.handleClick.bind(this);
         this.handleOnChange = this.handleOnChange.bind(this);
-        this.state = {comments: ["TOMT"], show: false, button: "Chatta"};
+        this.handleComment = this.handleComment.bind(this);
+        this.state = {comments: ["TOMT"], show: false, button: "Chatta", comment: "", id: 1111};
         this.getData();
     }
 
     async getData(){
-        const response = await fetch("/comments/Arjeplog/comment/1111", {
+        const response = await fetch("/comments/"+this.props.name, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         })
         .then((response) => response.json()).then(data => {
-            this.setState({comments: [data]});
-            console.log(this.state.comments);
+            this.setState({comments: data});
+            console.log("Hämtade alla kommentarer för " + this.props.name);
         });
     }
 
-    async pushData(){
-        const response = await fetch("/comments/Arjeplog/comment/1111", {
+    async addComment(){
+        const data = {
+            "id" : 1114,
+            "location" : "Grums",
+            "replyto" : "null",
+            "author" : "1",
+            "content" : "Detta är en uppdaterad kommentar",
+            "posted" : "2020-01-02 13:00:00"
+        }
+        //HTML5 API Fetch
+        const response = await fetch("/comments/"+this.props.name, {
             method: 'POST',
             headers: {'Content-Type': 'application/json' },
-            body: JSON.stringify({id: this.state.id, username: "Jimmy", content: this.state.comment})
+            body: JSON.stringify(data)
         })
             .then((response) => response.json()).then(data => {
             console.log("Lagt till data");
@@ -190,6 +199,9 @@ class ChatDialog extends React.Component {
         this.getData();
     }
 
+    handleComment(){
+        this.addComment();
+    }
 
     draw(){
         if(this.state.show){
@@ -201,7 +213,7 @@ class ChatDialog extends React.Component {
             </div>
             <div className="inputBox">
                 <input type="text" name="comment" value={this.state.comment} onChange={this.handleOnChange}></input>
-                <button onClick={this.handleClick}>Skicka</button>
+                <button onClick={this.handleComment}>Skicka</button>
             </div>
             </Dialog>
             </div>
@@ -262,4 +274,4 @@ class Like extends React.Component {
     }
 }
 
-ReactDOM.render(<Info />, document.getElementById("content"));
+ReactDOM.render(<Info name="Grums"/>, document.getElementById("content"));

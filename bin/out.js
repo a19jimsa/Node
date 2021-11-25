@@ -20479,7 +20479,7 @@ var require_commentsRoute = __commonJS({
         res.status(404).json({ msg: "No comments found" });
       }
     });
-    router.post("/location", express2.json(), function(req, res) {
+    router.post("/:location", express2.json(), function(req, res) {
       comments.push(req.body);
       res.status(201).json(req.body);
       console.log("La till kommentar!");
@@ -20546,6 +20546,8 @@ var require_forecastRoute = __commonJS({
       } else {
         res.status(404).json({ msg: "Hittade ingen med det namnet" });
       }
+    });
+    router.get("/:climatecode/:date", function(req, res) {
     });
     module2.exports = router;
   }

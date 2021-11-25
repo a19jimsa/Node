@@ -50,10 +50,20 @@ GET http://localhost:3000/forecast/Arjeplog
 GET http://localhost:3000/forecast/Arjeplog/2020-01-03
 
 ### GET comments for a location
-GET http://localhost:3000/comments/Arjeplog
+GET http://localhost:3000/comments/Grums
 
 ### POST add comments for a specific comment
-POST http://localhost:3000/comments/Arjeplog/comment/
+POST http://localhost:3000/comments/Arjeplog
+Content-Type: application/json
+
+{
+    "id" : 1113,
+    "location" : "Grums",
+    "replyto" : "null",
+    "author" : "1",
+    "content" : "Detta är en uppdaterad kommentar",
+    "posted" : "2020-01-02 13:00:00"
+}
 
 ### PUT update user
 PUT http://localhost:3000/users/1
@@ -83,3 +93,4 @@ Content-Type: application/json
     "content" : "Detta är en uppdaterad kommentar",
     "posted" : "2020-01-02 13:00:00"
 }
+
