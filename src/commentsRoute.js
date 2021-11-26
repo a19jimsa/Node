@@ -45,7 +45,7 @@ router.put("/:location/comment/:id", express.json(), function(req, res){
 //POST Add comment to specific city
 router.post("/:location", express.json(), function(req, res){
     const comment = comments.findIndex((comment)=>comment.location==req.params.location);
-    if(comment < 0){
+    if(comments.length <= 0){
         req.body.id = 1111;
     }
     comments.push(req.body);

@@ -20502,7 +20502,7 @@ var require_commentsRoute = __commonJS({
     });
     router.post("/:location", express2.json(), function(req, res) {
       const comment = comments.findIndex((comment2) => comment2.location == req.params.location);
-      if (comment < 0) {
+      if (comments.length <= 0) {
         req.body.id = 1111;
       }
       comments.push(req.body);

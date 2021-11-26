@@ -164,6 +164,10 @@ button:hover{
   width: 75%;
 }
 
+.arrow{
+  font-size: 25px;
+}
+
 .dialog{
   position: fixed;
   left: 50%;
@@ -184,6 +188,7 @@ button:hover{
 }
 
 .dialog input[type=text]{
+  padding: 5px;
   width: 100%;
   border: none;
   text-decoration: none;

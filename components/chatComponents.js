@@ -41,6 +41,8 @@ class ChatDialog extends React.Component {
         .then((response) => response.json())
         .then(data=> {
             this.setState({highestId: data})
+            console.log("Högsta id");
+            console.log(this.state.highestId);
         })
     }
 
@@ -217,7 +219,7 @@ class Answer extends React.Component {
             return <div>Error: {error.message}</div>
         }else if(comments.length > 0){
             return (<div>
-                <div>{'->'}</div>
+                <div className="arrow">&#x21AA;</div>
                 {comments.map(tag=>
                 <div key={tag.id} className="answerContent">
                     <div className="answerMessage right">
