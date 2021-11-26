@@ -19,7 +19,7 @@ class Like extends React.Component {
     }
 
     render() { 
-        return <li onClick={this.handleClick}>Like</li>;
+        return <li onClick={this.handleClick}>Gilla</li>;
     }
 }
 
@@ -29,7 +29,7 @@ class ChatDialog extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleComment = this.handleComment.bind(this);
-        this.state = {error: null,  isLoaded: false, comments: [], show: true, button: "Chatt", content: "", highestId: []};
+        this.state = {error: null,  isLoaded: false, comments: [], show: true, button: "Chatta", content: "", highestId: [], showAnswer: false, class: "none", active_id: null};
         this.getHighestId();
     }
 
@@ -60,15 +60,16 @@ class ChatDialog extends React.Component {
         )
     }
 
-    async addComment(){
+    async addComment(replyto){
         const id = Math.max.apply(null, this.state.highestId.map(highestId => highestId.id))+1;
         console.log(id);
         const time = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
         console.log(time);
+        console.log(replyto);
         const data = {
             "id" : id,
             "location" : this.props.name,
-            "replyto" : "null",
+            "replyto" : replyto,
             "author" : "1",
             "content" : this.state.content,
             "posted" : time
@@ -81,6 +82,8 @@ class ChatDialog extends React.Component {
         })
             .then((response) => response.json()).then(data => {
             this.componentDidMount();
+            this.handleClick();
+            this.handleClick();
         });
     }
 
@@ -98,8 +101,9 @@ class ChatDialog extends React.Component {
         }
     }
 
-    handleComment(){
-        this.addComment();
+    handleComment(replyto){
+        this.addComment(replyto);
+        this.setState({active_id: null});
     }
 
     async removeComment(id){
@@ -111,6 +115,24 @@ class ChatDialog extends React.Component {
             .then((response) => response.json()).then(data => {
             this.componentDidMount();
         });
+    }
+
+    showAnswerInput(){
+        this.state.showAnswer = !this.state.showAnswer;
+        if(this.state.showAnswer){
+            return (<div></div>)
+        }else{
+            return <div></div>;
+        }
+    }
+
+    show(id){
+        if(this.state.active_id == id){
+            this.setState({class: "none", active_id: id});
+            this.setState({active_id: "null"});
+        }else{
+            this.setState({class: "flex", active_id: id});
+        }
     }
 
     draw(){
@@ -126,15 +148,21 @@ class ChatDialog extends React.Component {
             <div className="messageBox">
             {comments.map(tag=>
                 <div key={tag.id} className="messageContent">
-                    <div className="message"><div><p>{tag.id}</p><p>{tag.content}</p></div></div>
-                    <ul><Like/><li>Svara</li><li onClick={this.removeComment.bind(this, tag.id)}>Ta bort</li><li>{tag.posted}</li></ul>
-                    <AnswerComment name={this.props.name} id={tag.id}/>
+                    <div className="message">
+                        <div><p>{tag.id}</p><p>{tag.content}</p></div>
+                    </div>
+                    <ul><Like id={tag.id} /><li onClick={this.show.bind(this, tag.id)}>Kommentera</li><li onClick={this.removeComment.bind(this, tag.id)}>Ta bort</li><li>{tag.posted}</li></ul>
+                    <div className={this.state.active_id == tag.id ? this.state.class : "none"}>
+                        <input type="text" onChange={this.handleOnChange}/>
+                        <button onClick={this.handleComment.bind(this, tag.id)}>Svara</button>
+                    </div>
+                    <Answer name={this.props.name} id={tag.id}/>
                 </div>
-            )}
+                )}
             </div>
             <div className="inputBox">
                 <input type="text" onChange={this.handleOnChange}></input>
-                <button onClick={this.handleComment}>Skicka</button>
+                <button onClick={this.handleComment.bind(this, "null")}>Skicka</button>
             </div>
             </Dialog>
             </div>
@@ -147,7 +175,7 @@ class ChatDialog extends React.Component {
     }
 }
 
-class AnswerComment extends React.Component {
+class Answer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {error: null, isLoaded: false, comments: []};
@@ -172,8 +200,15 @@ class AnswerComment extends React.Component {
         }
     }
 
-    removeComment(id){
-
+    async removeComment(id){
+        //HTML5 API Fetch
+        await fetch("/comments/"+id, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json' }
+        })
+            .then((response) => response.json()).then(data => {
+            this.componentDidMount();
+        });
     }
 
     render() { 
@@ -182,12 +217,13 @@ class AnswerComment extends React.Component {
             return <div>Error: {error.message}</div>
         }else if(comments.length > 0){
             return (<div>
+                <div>{'->'}</div>
                 {comments.map(tag=>
                 <div key={tag.id} className="answerContent">
                     <div className="answerMessage right">
                         <p>{tag.id}</p><p>{tag.content}</p>
                     </div>
-                    <div className="right"><ul><Like/><li>Svara</li><li onClick={this.removeComment.bind(this, tag.id)}>Ta bort</li><li>{tag.posted}</li></ul></div>
+                    <div className="right"><ul><Like/><li onClick={this.removeComment.bind(this, tag.id)}>Ta bort</li><li>{tag.posted}</li></ul></div>
                 </div>)}
             </div>
             );

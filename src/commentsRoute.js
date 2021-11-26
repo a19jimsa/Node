@@ -3,7 +3,8 @@ const router =  express.Router();
 
 const comments = [
     {id: 1111, location: "Arjeplog", replyto :"null", author: 1, content:"Detta är en kommentar om Arjeplog", posted: "2020-01-02 00:00:00"},
-    {id: 1112, location: "Arjeplog", replyto : 1111, author: 2, content:"Detta är ett svar på 1111", posted: "2020-01-02 00:00:01"}
+    {id: 1112, location: "Arjeplog", replyto : 1111, author: 2, content:"Detta är ett svar på 1111", posted: "2020-01-02 00:00:01"},
+    {id: 1113, location: "Arjeplog", replyto : "null", author: 2, content:"Detta är ett svar på 1112", posted: "2020-01-02 00:00:01"}
 ]
 
 router.get("/", function(req, res){
