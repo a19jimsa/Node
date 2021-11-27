@@ -44,10 +44,10 @@ Content-Type: application/json
 GET http://localhost:3000/comments
 
 ### GET forecast with city or date
-GET http://localhost:3000/forecast/2020-01-03
+GET http://localhost:3000/forecast/2020-01-01
 
 ### GET forecast with city and date
-GET http://localhost:3000/forecast/m/2020-01-01
+GET http://localhost:3000/forecast/fewfewm/2020-01-01
 
 ### GET comments for a location
 GET http://localhost:3000/comments/Grums
@@ -76,22 +76,22 @@ Content-Type: application/json
 }
 
 ### GET all comments
-GET http://localhost:3000/comments
-
-### GET specific coment of city
 GET http://localhost:3000/comments/Arjeplog
 
+### GET specific coment of city
+GET http://localhost:3000/comments/Arjeplog?id=1111
+
 ### GET specific comment of id
-GET http://localhost:3000/comments/Grums/comment/1112
+GET http://localhost:3000/comments/Arjeplog/comment/1113
 
 ### PUT specific comment of id
 PUT http://localhost:3000/comments/Grums/comment/1112
 Content-Type: application/json
 
 {
-    "id" : 1112,
-    "location" : "Grums",
-    "replyto" : "null",
+    "id" : 1114,
+    "location" : "Arjeplog",
+    "replyto" : 1111,
     "author" : "1",
     "content" : "Detta är en uppdaterad kommentar",
     "posted" : "2020-01-02 13:00:00"
@@ -107,7 +107,7 @@ Content-Type:  application/json
 {
     "id" : 1115,
     "location" : "Arjeplog",
-    "replyto" : "1111",
+    "replyto" : 1111,
     "author" : "1",
     "content" : "Detta är ett svar",
     "posted" : "2020-01-02 13:00:00"

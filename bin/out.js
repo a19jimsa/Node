@@ -20467,27 +20467,29 @@ var require_commentsRoute = __commonJS({
     var comments = [
       { id: 1111, location: "Arjeplog", replyto: "null", author: 1, content: "Detta \xE4r en kommentar om Arjeplog", posted: "2020-01-02 00:00:00" },
       { id: 1112, location: "Arjeplog", replyto: 1111, author: 2, content: "Detta \xE4r ett svar p\xE5 1111", posted: "2020-01-02 00:00:01" },
-      { id: 1113, location: "Arjeplog", replyto: "null", author: 2, content: "Detta \xE4r ett svar p\xE5 1112", posted: "2020-01-02 00:00:01" }
+      { id: 1113, location: "Arjeplog", replyto: "null", author: 2, content: "Detta \xE4r en kommentar", posted: "2020-01-02 00:00:01" }
     ];
     router.get("/", function(req, res) {
       res.status(200).json(comments);
     });
     router.get("/:location", function(req, res) {
-      const citycomments = comments.filter((comment) => comment.location == req.params.location && comment.replyto == "null").reverse();
+      var citycomments = comments.filter((comment) => comment.location == req.params.location).reverse();
+      if (req.query.id) {
+        citycomments = citycomments.filter((comment) => comment.replyto == req.query.id);
+      }
       if (citycomments) {
         res.status(200).json(citycomments);
       } else {
         res.status(404).json({ msg: "No comments found" });
       }
     });
-    router.get("/:location/comment/:id", function(req, res) {
-      console.log(req.params.location);
-      console.log(req.params.id);
-      const comment = comments.filter((comment2) => comment2.location == req.params.location && comment2.replyto == req.params.id);
+    router.get("/:location/comment/:id", function(req, res, next) {
+      const comment = comments.find((comment2) => comment2.location == req.params.location && comment2.id == req.params.id);
+      console.log(comment);
       if (comment) {
         res.status(200).json(comment);
       } else {
-        res.status(404).json({ msg: "Not found" });
+        next();
       }
     });
     router.put("/:location/comment/:id", express2.json(), function(req, res) {
@@ -20497,7 +20499,7 @@ var require_commentsRoute = __commonJS({
         res.status(404).json({ msg: "Comment not found" });
       } else {
         comments.splice(comment, 1, req.body);
-        res.status(200).json({ msg: "Updated user" });
+        res.status(200).json({ msg: "Updated comment" });
       }
     });
     router.post("/:location", express2.json(), function(req, res) {

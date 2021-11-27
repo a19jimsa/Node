@@ -47,7 +47,7 @@ class ChatDialog extends React.Component {
     }
 
     async componentDidMount(){
-        await fetch("/comments/"+this.props.name, {
+        await fetch("/comments/"+this.props.name+"?id=null", {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         })
@@ -187,7 +187,7 @@ class Answer extends React.Component {
         console.log(this.props.id);
         if(this.props.id != "null"){
             //HTML5 API Fetch
-            await fetch("/comments/"+this.props.name+"/comment/"+this.props.id, {
+            await fetch("/comments/"+this.props.name+"?id="+this.props.id, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
             })
