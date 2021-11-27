@@ -44,10 +44,10 @@ Content-Type: application/json
 GET http://localhost:3000/comments
 
 ### GET forecast with city or date
-GET http://localhost:3000/forecast/Arjeplog
+GET http://localhost:3000/forecast/2020-01-03
 
 ### GET forecast with city and date
-GET http://localhost:3000/forecast/Arjeplog/2020-01-03
+GET http://localhost:3000/forecast/m/2020-01-01
 
 ### GET comments for a location
 GET http://localhost:3000/comments/Grums
