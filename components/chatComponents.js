@@ -252,7 +252,6 @@ class CreateUserDialog extends React.Component {
             body: JSON.stringify(user)
         })
             .then((response) => response.json()).then(data => {
-                this.setState({users: [data]})
         });
     }
 

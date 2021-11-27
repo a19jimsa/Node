@@ -67,7 +67,7 @@ class Forecast extends React.Component{
             return <div>Error: {error.message}</div>;
         }else if(!isLoaded){
             return <div>Loading...</div>
-        }else{
+        }else if(forecast.length > 0){
             return(
             <div className="flex">
                 {this.aside()}
@@ -76,13 +76,15 @@ class Forecast extends React.Component{
                     {forecast.map(tag =>
                     <div key={tag.name+tag.fromtime+tag.totime}>
                     <Accordion>
-                        <div className="infoBox"><h2>{tag.name}</h2><h2>{tag.fromtime}</h2><h2>{tag.totime}</h2><h2>{tag.auxdata.TVALUE}&#176;C</h2><h2>{tag.auxdata.RVALUE}{tag.auxdata.RUNIT}</h2><h2>{tag.auxdata.MPS}m/s</h2>
+                        <div className="infoBox"><h2>{tag.fromtime}</h2><h2>{tag.totime}</h2><h2>{tag.auxdata.TVALUE}&#176;C</h2><h2>{tag.auxdata.RVALUE}{tag.auxdata.RUNIT}</h2><h2>{tag.auxdata.MPS}m/s</h2>
                         </div>
                     </Accordion>
                     </div>
                     )}
                 </div>
             </div>)
+        }else{
+            return <div>Någonting blev fel!</div>
         }
     }
 

@@ -45,11 +45,8 @@ router.get("/:code/:date", function(req, res){
 
 //Get last forcecast from specific city or specific date
 router.get("/:name", function(req, res){
-    console.log("Specifik stad: " + req.params.name);
-    const city = forecasts.find(city=>city.name==req.params.name);
-    console.log(city);
+    const city = forecasts.reverse().find(city=>city.name==req.params.name);
     const fromtime = forecasts.find(fromtime=>fromtime.fromtime.substring(0, 10)==req.params.name);
-    console.log(req.params.name);
     if(city){
         res.type("application/json");
         res.status(200).send(city);
