@@ -20483,18 +20483,16 @@ var require_commentsRoute = __commonJS({
         res.status(404).json({ msg: "No comments found" });
       }
     });
-    router.get("/:location/comment/:id", function(req, res, next) {
+    router.get("/:location/comment/:id", function(req, res) {
       const comment = comments.find((comment2) => comment2.location == req.params.location && comment2.id == req.params.id);
-      console.log(comment);
       if (comment) {
         res.status(200).json(comment);
       } else {
-        next();
+        res.status(404).json({ msg: "No comment found" });
       }
     });
     router.put("/:location/comment/:id", express2.json(), function(req, res) {
       const comment = comments.findIndex((comment2) => comment2.location == req.params.location && comment2.id == req.params.id);
-      console.log(req.body);
       if (comment < 0) {
         res.status(404).json({ msg: "Comment not found" });
       } else {
@@ -20503,7 +20501,6 @@ var require_commentsRoute = __commonJS({
       }
     });
     router.post("/:location", express2.json(), function(req, res) {
-      const comment = comments.findIndex((comment2) => comment2.location == req.params.location);
       if (comments.length <= 0) {
         req.body.id = 1111;
       }

@@ -23,20 +23,18 @@ router.get("/:location", function(req, res){
     }
 })
 //GET specific comments on specific location
-router.get("/:location/comment/:id", function(req, res, next){
+router.get("/:location/comment/:id", function(req, res){
     const comment = comments.find((comment)=>comment.location==req.params.location && comment.id==req.params.id);
-    console.log(comment);
     if(comment){
         res.status(200).json(comment);
     }else{
-        next();
+        res.status(404).json({msg: "No comment found"});
     }
 })
 
 //PUT change specific comment
 router.put("/:location/comment/:id", express.json(), function(req, res){
     const comment = comments.findIndex((comment)=>comment.location==req.params.location&&comment.id==req.params.id);
-    console.log(req.body);
     if(comment < 0){
         res.status(404).json({msg: "Comment not found"});
     }else{
@@ -47,7 +45,6 @@ router.put("/:location/comment/:id", express.json(), function(req, res){
 
 //POST Add comment to specific city
 router.post("/:location", express.json(), function(req, res){
-    const comment = comments.findIndex((comment)=>comment.location==req.params.location);
     if(comments.length <= 0){
         req.body.id = 1111;
     }

@@ -64,10 +64,7 @@ class ChatDialog extends React.Component {
 
     async addComment(replyto){
         const id = Math.max.apply(null, this.state.highestId.map(highestId => highestId.id))+1;
-        console.log(id);
         const time = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
-        console.log(time);
-        console.log(replyto);
         const data = {
             "id" : id,
             "location" : this.props.name,
@@ -144,30 +141,31 @@ class ChatDialog extends React.Component {
         }else if(!isLoaded){
             return <div>Loading...</div>;
         }else if(this.state.show && isLoaded){
-            return (<div>
-            <div className="dialog">
-            <Dialog><h1>Väderchatt - {this.props.name}</h1>
-            <div className="messageBox">
-            {comments.map(tag=>
-                <div key={tag.id} className="messageContent">
-                    <div className="message">
-                        <div><p>{tag.id}</p><p>{tag.content}</p></div>
-                    </div>
-                    <ul><Like id={tag.id} /><li onClick={this.show.bind(this, tag.id)}>Kommentera</li><li onClick={this.removeComment.bind(this, tag.id)}>Ta bort</li><li>{tag.posted}</li></ul>
-                    <div className={this.state.active_id == tag.id ? this.state.class : "none"}>
-                        <input type="text" onChange={this.handleOnChange}/>
-                        <button onClick={this.handleComment.bind(this, tag.id)}>Svara</button>
-                    </div>
-                    <Answer name={this.props.name} id={tag.id}/>
+            return (
+            <div>
+                <div className="dialog">
+                    <Dialog><h1>Väderchatt - {this.props.name}</h1>
+                        <div className="messageBox">
+                        {comments.map(tag=>
+                            <div key={tag.id} className="messageContent">
+                                <div className="message">
+                                    <div><p>{tag.id}</p><p>{tag.content}</p></div>
+                                </div>
+                                <ul><Like id={tag.id} /><li onClick={this.show.bind(this, tag.id)}>Kommentera</li><li onClick={this.removeComment.bind(this, tag.id)}>Ta bort</li><li>{tag.posted}</li></ul>
+                                <div className={this.state.active_id == tag.id ? this.state.class : "none"}>
+                                    <input type="text"onChange={this.handleOnChange}/>
+                                    <button onClick={this.handleComment.bind(this, tag.id)}>Svara</button>
+                                </div>
+                                <Answer name={this.props.name} id={tag.id}/>
+                            </div>
+                            )}
+                        </div>
+                        <div className="inputBox">
+                            <input type="text" onChange={this.handleOnChange}></input>
+                            <button onClick={this.handleComment.bind(this, "null")}>Skicka</button>
+                        </div>
+                    </Dialog>
                 </div>
-                )}
-            </div>
-            <div className="inputBox">
-                <input type="text" onChange={this.handleOnChange}></input>
-                <button onClick={this.handleComment.bind(this, "null")}>Skicka</button>
-            </div>
-            </Dialog>
-            </div>
             </div>)
         }
     }
@@ -184,7 +182,6 @@ class Answer extends React.Component {
     }
 
     async componentDidMount(){
-        console.log(this.props.id);
         if(this.props.id != "null"){
             //HTML5 API Fetch
             await fetch("/comments/"+this.props.name+"?id="+this.props.id, {
@@ -234,3 +231,11 @@ class Answer extends React.Component {
         }
     }
 }
+
+class CreateUserDialog extends React.Component {
+    
+    render() { 
+        return <div></div>;
+    }
+}
+
