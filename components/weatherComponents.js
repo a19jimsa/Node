@@ -21,6 +21,7 @@ class Info extends React.Component {
             <ChatDialog name={this.props.name}><h1>Väderchatt - {this.props.name}</h1></ChatDialog>
             <WelcomeDialog />
             <ClimateCode />
+            <CreateUserDialog />
         </div>;
     }
 }

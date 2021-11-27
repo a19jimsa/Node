@@ -142,31 +142,28 @@ class ChatDialog extends React.Component {
             return <div>Loading...</div>;
         }else if(this.state.show && isLoaded){
             return (
-            <div>
-                <div className="dialog">
-                    <Dialog><h1>Väderchatt - {this.props.name}</h1>
-                        <div className="messageBox">
-                        {comments.map(tag=>
-                            <div key={tag.id} className="messageContent">
-                                <div className="message">
-                                    <div><p>{tag.id}</p><p>{tag.content}</p></div>
-                                </div>
-                                <ul><Like id={tag.id} /><li onClick={this.show.bind(this, tag.id)}>Kommentera</li><li onClick={this.removeComment.bind(this, tag.id)}>Ta bort</li><li>{tag.posted}</li></ul>
-                                <div className={this.state.active_id == tag.id ? this.state.class : "none"}>
-                                    <input type="text"onChange={this.handleOnChange}/>
-                                    <button onClick={this.handleComment.bind(this, tag.id)}>Svara</button>
-                                </div>
-                                <Answer name={this.props.name} id={tag.id}/>
-                            </div>
-                            )}
+            <Dialog class="dialog"><h1>Väderchatt - {this.props.name}</h1>
+                <div className="messageBox">
+                {comments.map(tag=>
+                    <div key={tag.id} className="messageContent">
+                        <div className="message">
+                            <div><p>{tag.id}</p><p>{tag.content}</p></div>
                         </div>
-                        <div className="inputBox">
-                            <input type="text" onChange={this.handleOnChange}></input>
-                            <button onClick={this.handleComment.bind(this, "null")}>Skicka</button>
+                        <ul><Like id={tag.id} /><li onClick={this.show.bind(this, tag.id)}>Kommentera</li><li onClick={this.removeComment.bind(this, tag.id)}>Ta bort</li><li>{tag.posted}</li></ul>
+                        <div className={this.state.active_id == tag.id ? this.state.class : "none"}>
+                            <input type="text"onChange={this.handleOnChange}/>
+                            <button onClick={this.handleComment.bind(this, tag.id)}>Svara</button>
                         </div>
-                    </Dialog>
+                        <Answer name={this.props.name} id={tag.id}/>
+                    </div>
+                    )}
                 </div>
-            </div>)
+                <div className="inputBox">
+                    <input type="text" onChange={this.handleOnChange}></input>
+                    <button onClick={this.handleComment.bind(this, "null")}>Skicka</button>
+                </div>
+            </Dialog>
+            )
         }
     }
 
@@ -233,9 +230,99 @@ class Answer extends React.Component {
 }
 
 class CreateUserDialog extends React.Component {
-    
-    render() { 
-        return <div></div>;
+    constructor(props) {
+        super(props);
+        this.state = {username: "", email: "", show: false, users: []};
+        this.handleClick = this.handleClick.bind(this);
+        this.createUser = this.createUser.bind(this);
+        this.usernameOnChange = this.usernameOnChange.bind(this);
+        this.emailOnChange = this.emailOnChange.bind(this);
+        this.getUsers();
+    }
+
+    async createUser(){
+        const user = {
+            id: Math.max.apply(null, this.state.users.map(id=>id.id))+1,
+            username: this.state.username,
+            email: this.state.email
+        }
+        await fetch("/users/", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json' },
+            body: JSON.stringify(user)
+        })
+            .then((response) => response.json()).then(data => {
+                this.setState({users: [data]})
+        });
+    }
+
+    async getUsers(){
+        await fetch("/users/", {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+        })
+        .then((response) => response.json())
+        .then((data)=>{
+            this.setState({users: data});
+        },
+        (error) => {
+            console.log(error);
+        })
+    }
+
+    handleClick(){
+        this.state.show = !this.state.show;
+        this.setState({show: this.state.show});
+    }
+
+    usernameOnChange(e){
+        this.setState({username: e.target.value});
+    }
+
+    emailOnChange(e){
+        this.setState({email: e.target.value});
+    }
+
+    showUsers(){
+        if(this.state.users.length > 0){
+            return (
+                <div>
+                    <h1>Användare</h1>
+                    {this.state.users.map(tag=>
+                    
+                    <div key={tag.id}>{tag.username}{tag.email}</div>
+                    )}
+                </div>
+            )
+        }else{
+            return <div></div>
+        }
+    }
+
+    render() {
+        if(this.state.show){
+        return (
+        <div>
+            <Dialog class="dialog">
+                <h1>Skapa användare</h1>
+                <div>
+                    <label>Username: </label>
+                    <input type="text" onChange={this.usernameOnChange}/>
+                    <label>Email: </label>
+                    <input type="text" onChange={this.emailOnChange}/>
+                    <button onClick={this.createUser}>Skapa användare</button>
+                    {this.showUsers()}
+                </div>
+            </Dialog>
+            <button onClick={this.handleClick}>Skapa användare</button>
+        </div>
+        )
+        }else{
+            return (
+            <div>
+                <button onClick={this.handleClick}>Skapa användare</button>
+            </div>
+            )
+        }
     }
 }
-
