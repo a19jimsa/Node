@@ -235,8 +235,9 @@ Här så går det hämta ut alla användare. Även uppdatera, skapa och ta bort 
 
 Datan som hämtas från rest-apiet ritas även ut på hemsidan. Det går att lägga till och hämta ut användare. Skapa kommentarer om varje ort och även svara på dessa i chattrutan.
 Endpoints används i React via fetch som hämtar och lägger till JSON-data till och från arrayerna specificerade i varje route.
-
-<div style="margin: auto;">![image](https://user-images.githubusercontent.com/81629599/143773353-899e6b86-4eef-4859-8c79-3722ef74d9c6.png)</div>
+<p align="center">
+![image](https://user-images.githubusercontent.com/81629599/143773353-899e6b86-4eef-4859-8c79-3722ef74d9c6.png);
+</p>
 
 
 
