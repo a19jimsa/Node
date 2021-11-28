@@ -235,8 +235,19 @@ Här så går det hämta ut alla användare. Även uppdatera, skapa och ta bort 
 
 Datan som hämtas från rest-apiet ritas även ut på hemsidan. Det går att lägga till och hämta ut användare. Skapa kommentarer om varje ort och även svara på dessa i chattrutan.
 Endpoints används i React via fetch som hämtar och lägger till JSON-data till och från arrayerna specificerade i varje route.
-<p align="center">
-<img src="https://user-images.githubusercontent.com/81629599/143773353-899e6b86-4eef-4859-8c79-3722ef74d9c6.png" 
-    </p>
+<p align="center"><img src="https://user-images.githubusercontent.com/81629599/143773353-899e6b86-4eef-4859-8c79-3722ef74d9c6.png" /></p>
 
+Här hämtas olika data ut och skrivs ut på sidan som t ex senaste forecast och alla klimatkoder som ligger i arrayer.
+<p align="center"><img src="https://user-images.githubusercontent.com/81629599/143773741-fb1b7c00-3853-4ff2-be71-50d55cad159b.png" /></p>
+
+Här går det att skapa nya användare och se existerande användarnamn nedan. Mest för att hämta ut för att se att det fungerar rendera på hemsidan.
+<p align="center"><img src="https://user-images.githubusercontent.com/81629599/143773822-54ec8f40-e904-4479-9edf-30a878fca9e0.png" /></p>
+
+Chatten består av kommentarer som hämtas och lagras i arrayer. Varje kommentar skapas och läggs till i arrayen. De hämtas ut beroende på om de är svar eller kommentarer. Svar ska lägga sig endast under de kommentarer svaren tillhör. 
+
+Här går det lägga till och ta bort kommentater. Även svara på befintliga kommentarer.
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/81629599/143773928-7e357667-aa45-4cef-8246-e5e5a47581f2.png" />
+</p>
+I fältet går det skriva in och skapa ett svar på en befintlig kommentar eller nedan skapa en helt fristående kommentar. Datan som skickas med håller koll på om det är ett svar. 
 
