@@ -2,7 +2,7 @@
 
 Här skapas ett REST API med express.js och Node. Sidan använder JSON för att hämta och skapa data till hemsidan.
 
-``
+```javascript
 const { application } = require("express");
 const express = require("express");
 
@@ -32,4 +32,4 @@ app.get('/', function(req, res){
 app.listen(3000, function (){
     console.log("Server started")
 })
-``
+```
