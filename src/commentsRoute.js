@@ -7,10 +7,12 @@ const comments = [
     {id: 1113, location: "Arjeplog", replyto : "null", author: 2, content:"Detta är en kommentar", posted: "2020-01-02 00:00:01"}
 ]
 
+//GET all comments
 router.get("/", function(req, res){
     res.status(200).json(comments);
 })
 
+//GET all comments on a city
 router.get("/:location", function(req, res){
     var citycomments = comments.filter(comment=>comment.location==req.params.location).reverse();
     if(req.query.id){
@@ -22,6 +24,7 @@ router.get("/:location", function(req, res){
         res.status(404).json({msg: "No comments found"});
     }
 })
+
 //GET specific comments on specific location
 router.get("/:location/comment/:id", function(req, res){
     const comment = comments.find((comment)=>comment.location==req.params.location && comment.id==req.params.id);

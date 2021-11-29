@@ -11,6 +11,7 @@ router.get("/", function(req, res){
     res.status(200).json(usernames);
 })
 
+//GET specific user of name
 router.get("/:name", function(req, res){
     console.log("Specifik user: " + req.params.name);
     const user = users.find(user=>user.username==req.params.name);
@@ -22,6 +23,7 @@ router.get("/:name", function(req, res){
     }
 })
 
+//Update specific user
 router.put("/:id", express.json(), function(req, res){
     const user = users.findIndex((user)=>user.id==req.params.id);
     console.log(req.body);
@@ -33,11 +35,13 @@ router.put("/:id", express.json(), function(req, res){
     }
 })
 
+//POST new user
 router.post("/", express.json(), function(req, res){
     users.push(req.body);
     res.status(201).json(req.body);
 })
 
+//DELETE specific user of name
 router.delete("/:name", function(req, res){
     const rem = users.findIndex((u)=>u.username == req.params.name);
     if(rem < 0){
@@ -47,6 +51,5 @@ router.delete("/:name", function(req, res){
         res.status(200).json({msg: "User removed"})
     }
 })
-
 
 module.exports = router;
