@@ -1,5 +1,14 @@
+var sqlite3 = require("sqlite3").verbose();
 const express = require("express");
 const router =  express.Router();
+
+let db = new sqlite3.Database("./Weather.db", (err)=>{
+    if(err){
+        console.log(err.message);
+    }else{
+        console.log("conneced to database");
+    }
+})
 
 const climatecodes = [
     {code: "Af", name: "Tropical rainforest climate Tropical Rainforest", color: "#960000"},
