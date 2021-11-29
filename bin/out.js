@@ -1,5 +1,31 @@
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
+var __esm = (fn2, res) => function __init() {
+  return fn2 && (res = (0, fn2[Object.keys(fn2)[0]])(fn2 = 0)), res;
+};
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[Object.keys(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __export = (target, all) => {
+  __markAsModule(target);
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __reExport = (target, module2, desc) => {
+  if (module2 && typeof module2 === "object" || typeof module2 === "function") {
+    for (let key of __getOwnPropNames(module2))
+      if (!__hasOwnProp.call(target, key) && key !== "default")
+        __defProp(target, key, { get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable });
+  }
+  return target;
+};
+var __toModule = (module2) => {
+  return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? { get: () => module2.default, enumerable: true } : { value: module2, enumerable: true })), module2);
 };
 
 // node_modules/depd/lib/compat/callsite-tostring.js
@@ -13859,7 +13885,7 @@ var require_mime_db = __commonJS({
 var require_mime_types = __commonJS({
   "node_modules/mime-types/index.js"(exports2) {
     "use strict";
-    var db = require_mime_db();
+    var db2 = require_mime_db();
     var extname = require("path").extname;
     var EXTRACT_TYPE_REGEXP = /^\s*([^;\s]*)(?:;|\s|$)/;
     var TEXT_TYPE_REGEXP = /^text\//i;
@@ -13876,7 +13902,7 @@ var require_mime_types = __commonJS({
         return false;
       }
       var match = EXTRACT_TYPE_REGEXP.exec(type);
-      var mime = match && db[match[1].toLowerCase()];
+      var mime = match && db2[match[1].toLowerCase()];
       if (mime && mime.charset) {
         return mime.charset;
       }
@@ -13923,8 +13949,8 @@ var require_mime_types = __commonJS({
     }
     function populateMaps(extensions, types) {
       var preference = ["nginx", "apache", void 0, "iana"];
-      Object.keys(db).forEach(function forEachMimeType(type) {
-        var mime = db[type];
+      Object.keys(db2).forEach(function forEachMimeType(type) {
+        var mime = db2[type];
         var exts = mime.extensions;
         if (!exts || !exts.length) {
           return;
@@ -13933,7 +13959,7 @@ var require_mime_types = __commonJS({
         for (var i = 0; i < exts.length; i++) {
           var extension2 = exts[i];
           if (types[extension2]) {
-            var from = preference.indexOf(db[types[extension2]].source);
+            var from = preference.indexOf(db2[types[extension2]].source);
             var to = preference.indexOf(mime.source);
             if (types[extension2] !== "application/octet-stream" && (from > to || from === to && types[extension2].substr(0, 12) === "application/")) {
               continue;
@@ -15813,17 +15839,17 @@ var require_router = __commonJS({
     var toString = Object.prototype.toString;
     var proto = module2.exports = function(options) {
       var opts = options || {};
-      function router(req, res, next) {
-        router.handle(req, res, next);
+      function router2(req, res, next) {
+        router2.handle(req, res, next);
       }
-      setPrototypeOf(router, proto);
-      router.params = {};
-      router._params = [];
-      router.caseSensitive = opts.caseSensitive;
-      router.mergeParams = opts.mergeParams;
-      router.strict = opts.strict;
-      router.stack = [];
-      return router;
+      setPrototypeOf(router2, proto);
+      router2.params = {};
+      router2._params = [];
+      router2.caseSensitive = opts.caseSensitive;
+      router2.mergeParams = opts.mergeParams;
+      router2.strict = opts.strict;
+      router2.stack = [];
+      return router2;
     };
     proto.param = function param(name, fn2) {
       if (typeof name === "function") {
@@ -18444,7 +18470,7 @@ var require_application = __commonJS({
   "node_modules/express/lib/application.js"(exports2, module2) {
     "use strict";
     var finalhandler = require_finalhandler();
-    var Router = require_router();
+    var Router2 = require_router();
     var methods = require_methods();
     var middleware = require_init();
     var query = require_query();
@@ -18508,7 +18534,7 @@ var require_application = __commonJS({
     };
     app2.lazyrouter = function lazyrouter() {
       if (!this._router) {
-        this._router = new Router({
+        this._router = new Router2({
           caseSensitive: this.enabled("case sensitive routing"),
           strict: this.enabled("strict routing")
         });
@@ -18517,17 +18543,17 @@ var require_application = __commonJS({
       }
     };
     app2.handle = function handle(req, res, callback) {
-      var router = this._router;
+      var router2 = this._router;
       var done = callback || finalhandler(req, res, {
         env: this.get("env"),
         onerror: logerror.bind(this)
       });
-      if (!router) {
+      if (!router2) {
         debug("no routes defined on app");
         done();
         return;
       }
-      router.handle(req, res, done);
+      router2.handle(req, res, done);
     };
     app2.use = function use(fn2) {
       var offset = 0;
@@ -18547,15 +18573,15 @@ var require_application = __commonJS({
         throw new TypeError("app.use() requires a middleware function");
       }
       this.lazyrouter();
-      var router = this._router;
+      var router2 = this._router;
       fns.forEach(function(fn3) {
         if (!fn3 || !fn3.handle || !fn3.set) {
-          return router.use(path, fn3);
+          return router2.use(path, fn3);
         }
         debug(".use app under %s", path);
         fn3.mountpath = path;
         fn3.parent = this;
-        router.use(path, function mounted_app(req, res, next) {
+        router2.use(path, function mounted_app(req, res, next) {
           var orig = req.app;
           fn3.handle(req, res, function(err) {
             setPrototypeOf(req, orig.request);
@@ -20324,7 +20350,7 @@ var require_express = __commonJS({
     var mixin = require_merge_descriptors();
     var proto = require_application();
     var Route = require_route();
-    var Router = require_router();
+    var Router2 = require_router();
     var req = require_request();
     var res = require_response();
     exports2 = module2.exports = createApplication;
@@ -20347,7 +20373,7 @@ var require_express = __commonJS({
     exports2.request = req;
     exports2.response = res;
     exports2.Route = Route;
-    exports2.Router = Router;
+    exports2.Router = Router2;
     exports2.json = bodyParser.json;
     exports2.query = require_query();
     exports2.raw = bodyParser.raw;
@@ -20396,16 +20422,16 @@ var require_express2 = __commonJS({
 var require_usersRoute = __commonJS({
   "src/usersRoute.js"(exports2, module2) {
     var express2 = require_express2();
-    var router = express2.Router();
+    var router2 = express2.Router();
     var users = [
       { id: 1, username: "Jimmy", email: "jimmy@student.his.se" },
       { id: 2, username: "Per", email: "per@worker.his.se" }
     ];
-    router.get("/", function(req, res) {
+    router2.get("/", function(req, res) {
       const usernames = users.map(({ username }) => ({ username }));
       res.status(200).json(usernames);
     });
-    router.get("/:name", function(req, res) {
+    router2.get("/:name", function(req, res) {
       console.log("Specifik user: " + req.params.name);
       const user = users.find((user2) => user2.username == req.params.name);
       if (user) {
@@ -20415,7 +20441,7 @@ var require_usersRoute = __commonJS({
         res.status(404).json({ msg: "user not found" });
       }
     });
-    router.put("/:id", express2.json(), function(req, res) {
+    router2.put("/:id", express2.json(), function(req, res) {
       const user = users.findIndex((user2) => user2.id == req.params.id);
       console.log(req.body);
       if (user < 0) {
@@ -20425,11 +20451,11 @@ var require_usersRoute = __commonJS({
         res.status(200).json({ msg: "Updated user" });
       }
     });
-    router.post("/", express2.json(), function(req, res) {
+    router2.post("/", express2.json(), function(req, res) {
       users.push(req.body);
       res.status(201).json(req.body);
     });
-    router.delete("/:name", function(req, res) {
+    router2.delete("/:name", function(req, res) {
       const rem = users.findIndex((u) => u.username == req.params.name);
       if (rem < 0) {
         res.status(404).json({ msg: "User not found" });
@@ -20438,16 +20464,29 @@ var require_usersRoute = __commonJS({
         res.status(200).json({ msg: "User removed" });
       }
     });
-    module2.exports = router;
+    module2.exports = router2;
   }
 });
 
 // src/climatecodesRoute.js
-var require_climatecodesRoute = __commonJS({
-  "src/climatecodesRoute.js"(exports2, module2) {
-    var express2 = require_express2();
-    var router = express2.Router();
-    var climatecodes = [
+var climatecodesRoute_exports = {};
+__export(climatecodesRoute_exports, {
+  default: () => climatecodesRoute_default
+});
+var import_express, sqlite3, router, db, climatecodes, climatecodesRoute_default;
+var init_climatecodesRoute = __esm({
+  "src/climatecodesRoute.js"() {
+    import_express = __toModule(require_express2());
+    sqlite3 = require("sqlite3").verbose();
+    router = (0, import_express.Router)();
+    db = new sqlite3.Database("Weather.db", (err) => {
+      if (err) {
+        console.log(err.message);
+      } else {
+        console.log("conneced to database");
+      }
+    });
+    climatecodes = [
       { code: "Af", name: "Tropical rainforest climate Tropical Rainforest", color: "#960000" },
       { code: "Am", name: "Tropical monsoon climate Tropical Monsoon", color: "#FF0000" }
     ];
@@ -20455,7 +20494,7 @@ var require_climatecodesRoute = __commonJS({
       res.status(200).json(climatecodes);
       console.log("H\xE4mtade ut klimatkoder!");
     });
-    module2.exports = router;
+    climatecodesRoute_default = router;
   }
 });
 
@@ -20463,16 +20502,16 @@ var require_climatecodesRoute = __commonJS({
 var require_commentsRoute = __commonJS({
   "src/commentsRoute.js"(exports2, module2) {
     var express2 = require_express2();
-    var router = express2.Router();
+    var router2 = express2.Router();
     var comments = [
       { id: 1111, location: "Arjeplog", replyto: "null", author: 1, content: "Detta \xE4r en kommentar om Arjeplog", posted: "2020-01-02 00:00:00" },
       { id: 1112, location: "Arjeplog", replyto: 1111, author: 2, content: "Detta \xE4r ett svar p\xE5 1111", posted: "2020-01-02 00:00:01" },
       { id: 1113, location: "Arjeplog", replyto: "null", author: 2, content: "Detta \xE4r en kommentar", posted: "2020-01-02 00:00:01" }
     ];
-    router.get("/", function(req, res) {
+    router2.get("/", function(req, res) {
       res.status(200).json(comments);
     });
-    router.get("/:location", function(req, res) {
+    router2.get("/:location", function(req, res) {
       var citycomments = comments.filter((comment) => comment.location == req.params.location).reverse();
       if (req.query.id) {
         citycomments = citycomments.filter((comment) => comment.replyto == req.query.id);
@@ -20483,7 +20522,7 @@ var require_commentsRoute = __commonJS({
         res.status(404).json({ msg: "No comments found" });
       }
     });
-    router.get("/:location/comment/:id", function(req, res) {
+    router2.get("/:location/comment/:id", function(req, res) {
       const comment = comments.find((comment2) => comment2.location == req.params.location && comment2.id == req.params.id);
       if (comment) {
         res.status(200).json(comment);
@@ -20491,7 +20530,7 @@ var require_commentsRoute = __commonJS({
         res.status(404).json({ msg: "No comment found" });
       }
     });
-    router.put("/:location/comment/:id", express2.json(), function(req, res) {
+    router2.put("/:location/comment/:id", express2.json(), function(req, res) {
       const comment = comments.findIndex((comment2) => comment2.location == req.params.location && comment2.id == req.params.id);
       if (comment < 0) {
         res.status(404).json({ msg: "Comment not found" });
@@ -20500,7 +20539,7 @@ var require_commentsRoute = __commonJS({
         res.status(200).json({ msg: "Updated comment" });
       }
     });
-    router.post("/:location", express2.json(), function(req, res) {
+    router2.post("/:location", express2.json(), function(req, res) {
       if (comments.length <= 0) {
         req.body.id = 1111;
       }
@@ -20508,7 +20547,7 @@ var require_commentsRoute = __commonJS({
       res.status(201).json(req.body);
       console.log("La till kommentar!");
     });
-    router.post("/:location/comment/:commentid", express2.json(), function(req, res) {
+    router2.post("/:location/comment/:commentid", express2.json(), function(req, res) {
       const comment = comments.find((comment2) => comment2.location == req.params.location && comment2.id == req.params.commentid);
       console.log(req.params.commentid);
       console.log(req.params.location);
@@ -20519,7 +20558,7 @@ var require_commentsRoute = __commonJS({
         res.status(404).json({ msg: "Could not answer that comment" });
       }
     });
-    router.delete("/:commentid", express2.json(), function(req, res) {
+    router2.delete("/:commentid", express2.json(), function(req, res) {
       const comment = comments.findIndex((comment2) => comment2.id == req.params.commentid);
       if (comment < 0) {
         res.status(404).json({ ms: "Could not delete" });
@@ -20528,7 +20567,7 @@ var require_commentsRoute = __commonJS({
         res.status(200).json({ msg: "Removed comment" });
       }
     });
-    module2.exports = router;
+    module2.exports = router2;
   }
 });
 
@@ -20537,18 +20576,18 @@ var require_forecastRoute = __commonJS({
   "src/forecastRoute.js"(exports2, module2) {
     var { response } = require_express2();
     var express2 = require_express2();
-    var router = express2.Router();
+    var router2 = express2.Router();
     var forecasts = [
       { name: "Arjeplog", fromtime: "2020-01-01 00:00:00", totime: "2020-01-01 06:00:00", periodno: "0", periodname: "night", code: "Am", auxdata: { "TUNIT": "celsius", "TVALUE": "6.4", "ALTUNIT": "fahrenheit", "ALTVALUE": "43.52", "NUMBER": "4", "WSYMB3NUMBER": "6", "NAME": "Cloudy", "RUNIT": "mm", "RVALUE": "0", "DEG": "22", "CODE": "NNE", "NAME": "North-northeast", "MPS": "0.4", "NAME": "Calm", "UNIT": "hPa", "VALUE": "837" } },
       { name: "Arjeplog", fromtime: "2020-01-02 00:00:00", totime: "2020-01-01 06:00:00", periodno: "0", periodname: "Night", code: "Am", auxdata: { "TUNIT": "celsius", "TVALUE": "-8.2", "ALTUNIT": "fahrenheit", "ALTVALUE": "17.24", "NUMBER": "10", "WSYMB3NUMBER": "23", "FNAME": "Sleet", "RUNIT": "mm", "RVALUE": "1.2", "DEG": "257", "CODE": "SW", "NAME": "Southwest", "MPS": "14.4", "NAME": "Near Gale", "UNIT": "hPa", "VALUE": "1276" } },
       { name: "Arjeplog", fromtime: "2020-01-03 00:00:00", totime: "2020-01-03 06:00:00", periodno: "0", periodname: "Night", code: "Am", auxdata: { "TUNIT": "celsius", "TVALUE": "-8.7", "ALTUNIT": "fahrenheit", "ALTVALUE": "16.34", "NUMBER": "11", "WSYMB3NUMBER": "25", "FNAME": "Light snow", "RUNIT": "mm", "RVALUE": "1.7", "DEG": "257", "CODE": "W", "NAME": "West", "MPS": "15.3", "NAME": "Near Gale", "UNIT": "hPa", "VALUE": "1267" } },
       { name: "Grums", fromtime: "2020-01-01 00:00:00", totime: "2020-01-03 06:00:00", periodno: "0", periodname: "Night", code: "Am", auxdata: { "TUNIT": "celsius", "TVALUE": "-8.7", "ALTUNIT": "fahrenheit", "ALTVALUE": "16.34", "NUMBER": "11", "WSYMB3NUMBER": "25", "FNAME": "Light snow", "RUNIT": "mm", "RVALUE": "1.7", "DEG": "257", "CODE": "W", "NAME": "West", "MPS": "15.3", "NAME": "Near Gale", "UNIT": "hPa", "VALUE": "1267" } }
     ];
-    router.get("/", function(req, res) {
+    router2.get("/", function(req, res) {
       res.status(200).json(forecasts);
       console.log("H\xE4mtade ut v\xE4derprognoser!");
     });
-    router.get("/:city/:date", function(req, res, next) {
+    router2.get("/:city/:date", function(req, res, next) {
       const cityanddate = forecasts.slice(-1).find((forecast) => forecast.name == req.params.city && forecast.fromtime.substring(0, 10) == req.params.date);
       if (cityanddate) {
         res.type("application/json");
@@ -20558,7 +20597,7 @@ var require_forecastRoute = __commonJS({
         next();
       }
     });
-    router.get("/:code/:date", function(req, res) {
+    router2.get("/:code/:date", function(req, res) {
       const codeanddate = forecasts.filter((codeanddate2) => codeanddate2.fromtime.substring(0, 10) == req.params.date && codeanddate2.code == req.params.code);
       console.log(req.params.date);
       const date = forecasts.filter((forecast) => forecast.fromtime.substring(0, 10) == req.params.date);
@@ -20573,7 +20612,7 @@ var require_forecastRoute = __commonJS({
         res.status(404).json({ msg: "Hittade inget!" });
       }
     });
-    router.get("/:name", function(req, res) {
+    router2.get("/:name", function(req, res) {
       const city = forecasts.reverse().find((city2) => city2.name == req.params.name);
       const fromtime = forecasts.find((fromtime2) => fromtime2.fromtime.substring(0, 10) == req.params.name);
       if (city) {
@@ -20586,7 +20625,7 @@ var require_forecastRoute = __commonJS({
         res.status(404).json({ msg: "Hittade ingen med det namnet" });
       }
     });
-    module2.exports = router;
+    module2.exports = router2;
   }
 });
 
@@ -20598,7 +20637,7 @@ app.use("/", express.static("src"));
 app.use("/components", express.static("components"));
 var usersRoute = require_usersRoute();
 app.use("/users", usersRoute);
-var climatecodesRoute = require_climatecodesRoute();
+var climatecodesRoute = (init_climatecodesRoute(), climatecodesRoute_exports).default;
 app.use("/climatecodes", climatecodesRoute);
 var commentsRoute = require_commentsRoute();
 app.use("/comments", commentsRoute);

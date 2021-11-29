@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bundle": "npx esbuild src/index.js --bundle --platform=node --outfile=bin/out.js",
+    "bundle": "npx esbuild src/index.js --bundle --external:sqlite3 --platform=node --outfile=bin/out.js",
     "st": "node bin/out.js",
     "bnr": "npm run bundle && npm run st"
   },

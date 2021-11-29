@@ -1,8 +1,8 @@
 var sqlite3 = require("sqlite3").verbose();
-const express = require("express");
-const router =  express.Router();
+import { Router } from "express";
+const router =  Router();
 
-let db = new sqlite3.Database("./Weather.db", (err)=>{
+let db = new sqlite3.Database("Weather.db", (err)=>{
     if(err){
         console.log(err.message);
     }else{
@@ -20,4 +20,4 @@ router.get("/", function(req, res){
     console.log("Hämtade ut klimatkoder!");
 });
 
-module.exports = router;
+export default router;
