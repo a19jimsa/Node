@@ -13885,7 +13885,7 @@ var require_mime_db = __commonJS({
 var require_mime_types = __commonJS({
   "node_modules/mime-types/index.js"(exports2) {
     "use strict";
-    var db2 = require_mime_db();
+    var db = require_mime_db();
     var extname = require("path").extname;
     var EXTRACT_TYPE_REGEXP = /^\s*([^;\s]*)(?:;|\s|$)/;
     var TEXT_TYPE_REGEXP = /^text\//i;
@@ -13902,7 +13902,7 @@ var require_mime_types = __commonJS({
         return false;
       }
       var match = EXTRACT_TYPE_REGEXP.exec(type);
-      var mime = match && db2[match[1].toLowerCase()];
+      var mime = match && db[match[1].toLowerCase()];
       if (mime && mime.charset) {
         return mime.charset;
       }
@@ -13949,8 +13949,8 @@ var require_mime_types = __commonJS({
     }
     function populateMaps(extensions, types) {
       var preference = ["nginx", "apache", void 0, "iana"];
-      Object.keys(db2).forEach(function forEachMimeType(type) {
-        var mime = db2[type];
+      Object.keys(db).forEach(function forEachMimeType(type) {
+        var mime = db[type];
         var exts = mime.extensions;
         if (!exts || !exts.length) {
           return;
@@ -13959,7 +13959,7 @@ var require_mime_types = __commonJS({
         for (var i = 0; i < exts.length; i++) {
           var extension2 = exts[i];
           if (types[extension2]) {
-            var from = preference.indexOf(db2[types[extension2]].source);
+            var from = preference.indexOf(db[types[extension2]].source);
             var to = preference.indexOf(mime.source);
             if (types[extension2] !== "application/octet-stream" && (from > to || from === to && types[extension2].substr(0, 12) === "application/")) {
               continue;
@@ -20473,19 +20473,11 @@ var climatecodesRoute_exports = {};
 __export(climatecodesRoute_exports, {
   default: () => climatecodesRoute_default
 });
-var import_express, sqlite3, router, db, climatecodes, climatecodesRoute_default;
+var import_express, router, climatecodes, climatecodesRoute_default;
 var init_climatecodesRoute = __esm({
   "src/climatecodesRoute.js"() {
     import_express = __toModule(require_express2());
-    sqlite3 = require("sqlite3").verbose();
     router = (0, import_express.Router)();
-    db = new sqlite3.Database("Weather.db", (err) => {
-      if (err) {
-        console.log(err.message);
-      } else {
-        console.log("conneced to database");
-      }
-    });
     climatecodes = [
       { code: "Af", name: "Tropical rainforest climate Tropical Rainforest", color: "#960000" },
       { code: "Am", name: "Tropical monsoon climate Tropical Monsoon", color: "#FF0000" }

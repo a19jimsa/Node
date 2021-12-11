@@ -9,7 +9,7 @@ app.use('/components', express.static('components'))
 const usersRoute = require("./usersRoute")
 app.use("/users", usersRoute)
 
-const climatecodesRoute = require("./climatecodesRoute").default
+const climatecodesRoute = require("./climatecodesRoute")
 app.use("/climatecodes", climatecodesRoute)
 
 const commentsRoute = require("./commentsRoute")
